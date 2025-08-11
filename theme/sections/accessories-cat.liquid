@@ -5,14 +5,15 @@
 <div class="category-display">
   <div class="category-display__container">
     <div class="category-display__header">
-      <h1 class="category-display__title">Clothing Accessories</h1>
+      <h1 class="category-display__title">{{ section.settings.page_title | default: 'Clothing Accessories' }}</h1>
       <p class="category-display__subtitle">
-        Explore our accessories subcategories below
+        {{ section.settings.page_description | default: 'Explore our accessories subcategories below' }}
       </p>
     </div>
     
     <div class="category-display__grid">
-      {% assign subcategories = 'Lehenga Tassels,Lehenga Belt,Dupatta Border/Laces,Customized Name Tassels' | split: ',' %}
+      {% assign subcategories_input = section.settings.subcategories_list | default: 'Lehenga Tassels,Lehenga Belt,Dupatta Border/Laces,Customized Name Tassels' %}
+      {% assign subcategories = subcategories_input | split: ',' %}
       
       {% for subcategory in subcategories %}
         {% assign subcategory_handle = subcategory | handleize %}
@@ -185,6 +186,25 @@
 {% schema %}
 {
   "name": "Accessories Cat",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page Title",
+      "default": "Clothing Accessories"
+    },
+    {
+      "type": "textarea",
+      "id": "page_description", 
+      "label": "Page Description",
+      "default": "Explore our accessories subcategories below"
+    },
+    {
+      "type": "text",
+      "id": "subcategories_list",
+      "label": "Subcategories (comma separated)",
+      "default": "Lehenga Tassels,Lehenga Belt,Dupatta Border/Laces,Customized Name Tassels"
+    }
+  ]
 }
 {% endschema %}

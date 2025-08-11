@@ -5,14 +5,15 @@
 <div class="category-display">
   <div class="category-display__container">
     <div class="category-display__header">
-      <h1 class="category-display__title">Premium Dress Collection Shop Now</h1>
+      <h1 class="category-display__title">{{ section.settings.page_title | default: 'Premium Dress Collection Shop Now' }}</h1>
       <p class="category-display__subtitle">
-        Explore our dress subcategories below
+        {{ section.settings.page_description | default: 'Explore our dress subcategories below' }}
       </p>
     </div>
     
     <div class="category-display__grid">
-      {% assign subcategories = 'Gown,Crop-Top,Sharara,Peplum' | split: ',' %}
+      {% assign subcategories_input = section.settings.subcategories_list | default: 'Gown,Crop-Top,Sharara,Peplum' %}
+      {% assign subcategories = subcategories_input | split: ',' %}
       
       {% for subcategory in subcategories %}
         {% assign subcategory_handle = subcategory | handleize %}
@@ -185,6 +186,25 @@
 {% schema %}
 {
   "name": "Dresses Cat",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page Title",
+      "default": "Premium Dress Collection Shop Now"
+    },
+    {
+      "type": "textarea",
+      "id": "page_description", 
+      "label": "Page Description",
+      "default": "Explore our dress subcategories below"
+    },
+    {
+      "type": "text",
+      "id": "subcategories_list",
+      "label": "Subcategories (comma separated)",
+      "default": "Gown,Crop-Top,Sharara,Peplum"
+    }
+  ]
 }
 {% endschema %}

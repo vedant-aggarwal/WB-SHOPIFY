@@ -5,14 +5,15 @@
 <div class="category-display">
   <div class="category-display__container">
     <div class="category-display__header">
-      <h1 class="category-display__title">Exclusive Lehenga Collection Shop Now</h1>
+      <h1 class="category-display__title">{{ section.settings.page_title | default: 'Exclusive Lehenga Collection Shop Now' }}</h1>
       <p class="category-display__subtitle">
-        Explore our lehenga subcategories below
+        {{ section.settings.page_description | default: 'Explore our lehenga subcategories below' }}
       </p>
     </div>
     
     <div class="category-display__grid">
-      {% assign subcategories = 'Bridal Lehenga,Non-Bridal Lehenga' | split: ',' %}
+      {% assign subcategories_input = section.settings.subcategories_list | default: 'Bridal Lehenga,Non-Bridal Lehenga' %}
+      {% assign subcategories = subcategories_input | split: ',' %}
       
       {% for subcategory in subcategories %}
         {% assign subcategory_handle = subcategory | handleize %}
@@ -185,6 +186,25 @@
 {% schema %}
 {
   "name": "Lehengas Cat",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page Title",
+      "default": "Exclusive Lehenga Collection Shop Now"
+    },
+    {
+      "type": "textarea",
+      "id": "page_description", 
+      "label": "Page Description",
+      "default": "Explore our lehenga subcategories below"
+    },
+    {
+      "type": "text",
+      "id": "subcategories_list",
+      "label": "Subcategories (comma separated)",
+      "default": "Bridal Lehenga,Non-Bridal Lehenga"
+    }
+  ]
 }
 {% endschema %}

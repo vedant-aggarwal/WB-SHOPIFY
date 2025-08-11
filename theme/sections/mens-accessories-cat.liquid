@@ -5,14 +5,15 @@
 <div class="category-display">
   <div class="category-display__container">
     <div class="category-display__header">
-      <h1 class="category-display__title">Mens Accessories</h1>
+      <h1 class="category-display__title">{{ section.settings.page_title | default: 'Mens Accessories' }}</h1>
       <p class="category-display__subtitle">
-        Explore our mens accessories subcategories below
+        {{ section.settings.page_description | default: 'Explore our mens accessories subcategories below' }}
       </p>
     </div>
     
     <div class="category-display__grid">
-      {% assign subcategories = 'Juti,Mala,Sehra,Patka,Brouch' | split: ',' %}
+      {% assign subcategories_input = section.settings.subcategories_list | default: 'Juti,Mala,Sehra,Patka,Brouch' %}
+      {% assign subcategories = subcategories_input | split: ',' %}
       
       {% for subcategory in subcategories %}
         {% assign subcategory_handle = subcategory | handleize %}
@@ -185,6 +186,25 @@
 {% schema %}
 {
   "name": "Mens Accessories Cat",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page Title",
+      "default": "Mens Accessories"
+    },
+    {
+      "type": "textarea",
+      "id": "page_description", 
+      "label": "Page Description",
+      "default": "Explore our mens accessories subcategories below"
+    },
+    {
+      "type": "text",
+      "id": "subcategories_list",
+      "label": "Subcategories (comma separated)",
+      "default": "Juti,Mala,Sehra,Patka,Brouch"
+    }
+  ]
 }
 {% endschema %}

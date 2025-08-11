@@ -5,14 +5,15 @@
 <div class="category-display">
   <div class="category-display__container">
     <div class="category-display__header">
-      <h1 class="category-display__title">Fancy Suits Collection Shop Now</h1>
+      <h1 class="category-display__title">{{ section.settings.page_title | default: 'Fancy Suits Collection Shop Now' }}</h1>
       <p class="category-display__subtitle">
-        Explore our suits subcategories below
+        {{ section.settings.page_description | default: 'Explore our suits subcategories below' }}
       </p>
     </div>
     
     <div class="category-display__grid">
-      {% assign subcategories = 'Party Wear Suits,Casual Suits,Woollen Suits' | split: ',' %}
+      {% assign subcategories_input = section.settings.subcategories_list | default: 'Party Wear Suits,Casual Suits,Woollen Suits' %}
+      {% assign subcategories = subcategories_input | split: ',' %}
       
       {% for subcategory in subcategories %}
         {% assign subcategory_handle = subcategory | handleize %}
@@ -185,6 +186,25 @@
 {% schema %}
 {
   "name": "Suits Cat",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page Title",
+      "default": "Fancy Suits Collection Shop Now"
+    },
+    {
+      "type": "textarea",
+      "id": "page_description", 
+      "label": "Page Description",
+      "default": "Explore our suits subcategories below"
+    },
+    {
+      "type": "text",
+      "id": "subcategories_list",
+      "label": "Subcategories (comma separated)",
+      "default": "Party Wear Suits,Casual Suits,Woollen Suits"
+    }
+  ]
 }
 {% endschema %}

@@ -5,14 +5,15 @@
 <div class="category-display">
   <div class="category-display__container">
     <div class="category-display__header">
-      <h1 class="category-display__title">Designer Saree Collection Shop Now</h1>
+      <h1 class="category-display__title">{{ section.settings.page_title | default: 'Designer Saree Collection Shop Now' }}</h1>
       <p class="category-display__subtitle">
-        Explore our saree subcategories below
+        {{ section.settings.page_description | default: 'Explore our saree subcategories below' }}
       </p>
     </div>
     
     <div class="category-display__grid">
-      {% assign subcategories = 'Party Wear Sarees,Silk Sarees,Printed Sarees,Net Sarees,Premium Sarees,Drape and Sequin Sarees,Readymade Blouse Sarees,Gifting Sarees' | split: ',' %}
+      {% assign subcategories_input = section.settings.subcategories_list | default: 'Party Wear Sarees,Silk Sarees,Printed Sarees,Net Sarees,Premium Sarees,Drape and Sequin Sarees,Readymade Blouse Sarees,Gifting Sarees' %}
+      {% assign subcategories = subcategories_input | split: ',' %}
       
       {% for subcategory in subcategories %}
         {% assign subcategory_handle = subcategory | handleize %}
@@ -185,6 +186,25 @@
 {% schema %}
 {
   "name": "Sarees Cat",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page Title",
+      "default": "Designer Saree Collection Shop Now"
+    },
+    {
+      "type": "textarea",
+      "id": "page_description", 
+      "label": "Page Description",
+      "default": "Explore our saree subcategories below"
+    },
+    {
+      "type": "text",
+      "id": "subcategories_list",
+      "label": "Subcategories (comma separated)",
+      "default": "Party Wear Sarees,Silk Sarees,Printed Sarees,Net Sarees,Premium Sarees,Drape and Sequin Sarees,Readymade Blouse Sarees,Gifting Sarees"
+    }
+  ]
 }
 {% endschema %}

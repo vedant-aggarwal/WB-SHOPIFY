@@ -1,67 +1,12 @@
 <div class="page-content">
   <div class="container">
     <div class="page-header">
-      <h1 class="page-title">Privacy Policy</h1>
+      <h1 class="page-title">{{ section.settings.page_title | default: 'Privacy Policy' }}</h1>
     </div>
     
     <div class="page-body">
       <div class="content-section">
-        <p><strong>Last updated:</strong> {{ 'now' | date: '%B %d, %Y' }}</p>
-        
-        <h2>Information We Collect</h2>
-        <p>We collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support. This may include:</p>
-        <ul>
-          <li>Personal identification information (name, email address, phone number)</li>
-          <li>Billing and shipping addresses</li>
-          <li>Payment information (processed securely through our payment providers)</li>
-          <li>Communication preferences</li>
-        </ul>
-        
-        <h2>How We Use Your Information</h2>
-        <p>We use the information we collect to:</p>
-        <ul>
-          <li>Process and fulfill your orders</li>
-          <li>Communicate with you about your purchases</li>
-          <li>Provide customer support</li>
-          <li>Send promotional communications (with your consent)</li>
-          <li>Improve our products and services</li>
-          <li>Comply with legal obligations</li>
-        </ul>
-        
-        <h2>Information Sharing</h2>
-        <p>We do not sell, rent, or share your personal information with third parties except:</p>
-        <ul>
-          <li>With service providers who assist us in operating our business</li>
-          <li>When required by law or to protect our rights</li>
-          <li>In connection with a business transfer or acquisition</li>
-          <li>With your explicit consent</li>
-        </ul>
-        
-        <h2>Data Security</h2>
-        <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
-        
-        <h2>Your Rights</h2>
-        <p>You have the right to:</p>
-        <ul>
-          <li>Access, update, or delete your personal information</li>
-          <li>Opt-out of promotional communications</li>
-          <li>Request a copy of the information we have about you</li>
-          <li>Lodge a complaint with a supervisory authority</li>
-        </ul>
-        
-        <h2>Cookies</h2>
-        <p>We use cookies and similar technologies to improve your browsing experience, analyze site usage, and assist in our marketing efforts. You can control cookie settings through your browser preferences.</p>
-        
-        <h2>Changes to This Policy</h2>
-        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.</p>
-        
-        <h2>Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy, please contact us:</p>
-        <ul>
-          <li>Email: <a href="mailto:ajay252551@gmail.com">ajay252551@gmail.com</a></li>
-          <li>Phone: <a href="tel:+919090949292">+91 9090949292</a></li>
-          <li>Address: RZ-2/275, Shankar Park, Sagar Pur West, Opp Baba Balak Nath Temple, New Delhi - 110046, Delhi, India</li>
-        </ul>
+        {{ section.settings.page_content | default: '<p><strong>Last updated:</strong> {{ "now" | date: "%B %d, %Y" }}</p><h2>Information We Collect</h2><p>We collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support. This may include:</p><ul><li>Personal identification information (name, email address, phone number)</li><li>Billing and shipping addresses</li><li>Payment information (processed securely through our payment providers)</li><li>Communication preferences</li></ul><h2>How We Use Your Information</h2><p>We use the information we collect to:</p><ul><li>Process and fulfill your orders</li><li>Communicate with you about your purchases</li><li>Provide customer support</li><li>Send promotional communications (with your consent)</li><li>Improve our products and services</li><li>Comply with legal obligations</li></ul><h2>Information Sharing</h2><p>We do not sell, rent, or share your personal information with third parties except:</p><ul><li>With service providers who assist us in operating our business</li><li>When required by law or to protect our rights</li><li>In connection with a business transfer or acquisition</li><li>With your explicit consent</li></ul><h2>Data Security</h2><p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p><h2>Your Rights</h2><p>You have the right to:</p><ul><li>Access, update, or delete your personal information</li><li>Opt-out of promotional communications</li><li>Request a copy of the information we have about you</li><li>Lodge a complaint with a supervisory authority</li></ul><h2>Cookies</h2><p>We use cookies and similar technologies to improve your browsing experience, analyze site usage, and assist in our marketing efforts. You can control cookie settings through your browser preferences.</p><h2>Changes to This Policy</h2><p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.</p><h2>Contact Us</h2><p>If you have any questions about this Privacy Policy, please contact us:</p><ul><li>Email: <a href="mailto:ajay252551@gmail.com">ajay252551@gmail.com</a></li><li>Phone: <a href="tel:+919090949292">+91 9090949292</a></li><li>Address: RZ-2/275, Shankar Park, Sagar Pur West, Opp Baba Balak Nath Temple, New Delhi - 110046, Delhi, India</li></ul>' }}
       </div>
     </div>
   </div>
@@ -145,6 +90,19 @@
 {% schema %}
 {
   "name": "Privacy Policy",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page Title",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "richtext",
+      "id": "page_content",
+      "label": "Page Content",
+      "default": "<p><strong>Last updated:</strong> {{ 'now' | date: '%B %d, %Y' }}</p><h2>Information We Collect</h2><p>We collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support. This may include:</p><ul><li>Personal identification information (name, email address, phone number)</li><li>Billing and shipping addresses</li><li>Payment information (processed securely through our payment providers)</li><li>Communication preferences</li></ul><h2>How We Use Your Information</h2><p>We use the information we collect to:</p><ul><li>Process and fulfill your orders</li><li>Communicate with you about your purchases</li><li>Provide customer support</li><li>Send promotional communications (with your consent)</li><li>Improve our products and services</li><li>Comply with legal obligations</li></ul><h2>Information Sharing</h2><p>We do not sell, rent, or share your personal information with third parties except:</p><ul><li>With service providers who assist us in operating our business</li><li>When required by law or to protect our rights</li><li>In connection with a business transfer or acquisition</li><li>With your explicit consent</li></ul><h2>Data Security</h2><p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p><h2>Your Rights</h2><p>You have the right to:</p><ul><li>Access, update, or delete your personal information</li><li>Opt-out of promotional communications</li><li>Request a copy of the information we have about you</li><li>Lodge a complaint with a supervisory authority</li></ul><h2>Cookies</h2><p>We use cookies and similar technologies to improve your browsing experience, analyze site usage, and assist in our marketing efforts. You can control cookie settings through your browser preferences.</p><h2>Changes to This Policy</h2><p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the 'Last updated' date.</p><h2>Contact Us</h2><p>If you have any questions about this Privacy Policy, please contact us:</p><ul><li>Email: <a href='mailto:ajay252551@gmail.com'>ajay252551@gmail.com</a></li><li>Phone: <a href='tel:+919090949292'>+91 9090949292</a></li><li>Address: RZ-2/275, Shankar Park, Sagar Pur West, Opp Baba Balak Nath Temple, New Delhi - 110046, Delhi, India</li></ul>"
+    }
+  ]
 }
 {% endschema %}
