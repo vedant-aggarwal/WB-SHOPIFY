@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "main": {
+      "type": "lehengas-cat"
+    }
+  },
+  "order": ["main"]
+}

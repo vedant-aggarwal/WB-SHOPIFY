@@ -1,0 +1,955 @@
+{% stylesheet %}
+.hots-section {
+  padding: 3rem 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.hots-section__container {
+  width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.hots-section__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hots-section__title {
+  color: #8B4513;
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+}
+
+.hots-section__title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #8B4513, #A0522D);
+  border-radius: 2px;
+}
+
+.hots-section__subtitle {
+  color: #666;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.hots-section__badge {
+  display: inline-block;
+  background: #8B4513;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.hots-section__carousel {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem 0;
+}
+
+.hots-section__track {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.4s ease;
+  padding: 0.5rem 0;
+}
+
+.hots-section__product-card {
+  flex: 0 0 auto;
+  width: 280px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.hots-section__product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+
+.hots-section__product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 5;
+}
+
+.hots-section__product-badge.trending {
+  background: #8B4513;
+}
+
+.hots-section__product-badge.bestseller {
+  background: #A0522D;
+}
+
+.hots-section__product-badge.new-arrival {
+  background: #8B4513;
+}
+
+.hots-section__product-badge.limited-edition {
+  background: #A0522D;
+}
+
+.hots-section__product-badge.sale {
+  background: #8B4513;
+}
+
+.hots-section__product-badge.exclusive {
+  background: #A0522D;
+}
+
+.hots-section__product-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.hots-section__product-card:hover .hots-section__product-image {
+  transform: scale(1.1);
+}
+
+.hots-section__product-content {
+  padding: 1.5rem;
+}
+
+.hots-section__product-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+  height: 2.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+
+.hots-section__product-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.hots-section__current-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #8B4513;
+}
+
+.hots-section__compare-price {
+  font-size: 1rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.hots-section__discount {
+  background: #8B4513;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.hots-section__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.95);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8B4513;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.hots-section__nav:hover {
+  background: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.hots-section__nav--prev {
+  left: -22px;
+}
+
+.hots-section__nav--next {
+  right: -22px;
+}
+
+.hots-section__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: translateY(-50%) scale(1);
+}
+
+.hots-section__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.hots-section__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ddd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hots-section__dot.active {
+  background: #8B4513;
+  transform: scale(1.2);
+}
+
+/* New Arrivals Section */
+.new-arrivals {
+  margin-top: 3rem;
+  padding-top: 3rem;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.new-arrivals__container {
+  width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.new-arrivals__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.new-arrivals__title {
+  color: #8B4513;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.new-arrivals__carousel {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.new-arrivals__carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.new-arrivals__track {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.new-arrivals__product-card {
+  flex: 0 0 auto;
+  width: 220px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.new-arrivals__product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.new-arrivals__product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.new-arrivals__product-content {
+  padding: 1rem;
+}
+
+.new-arrivals__product-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+  height: 2.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.new-arrivals__product-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.new-arrivals__current-price {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #8B4513;
+}
+
+.new-arrivals__compare-price {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.new-arrivals__discount {
+  background: #8B4513;
+  color: white;
+  padding: 0.2rem 0.4rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .hots-section {
+    padding: 2rem 0;
+  }
+  
+  .hots-section__title {
+    font-size: 1.6rem;
+  }
+  
+  .hots-section__subtitle {
+    font-size: 1rem;
+  }
+  
+  .hots-section__product-card {
+    width: 240px;
+  }
+  
+  .hots-section__product-image {
+    height: 200px;
+  }
+  
+  .hots-section__nav {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+  
+  .hots-section__nav--prev {
+    left: -20px;
+  }
+  
+  .hots-section__nav--next {
+    right: -20px;
+  }
+  
+  .new-arrivals__product-card {
+    width: 180px;
+  }
+  
+  .new-arrivals__product-image {
+    height: 150px;
+  }
+  
+  .new-arrivals__title {
+    font-size: 1.4rem;
+  }
+}
+
+/* Loading States */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #8B4513;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+{% endstylesheet %}
+
+<section class="hots-section">
+  <div class="hots-section__container">
+    <div class="hots-section__header">
+      <h2 class="hots-section__title" id="hots-title">{{ section.settings.title | default: 'Hots' }}</h2>
+      <p class="hots-section__subtitle" id="hots-subtitle">{{ section.settings.subtitle | default: 'Discover what everyone is buying' }}</p>
+    </div>
+    
+    <div class="hots-section__carousel">
+      <button class="hots-section__nav hots-section__nav--prev" onclick="scrollHots('prev')" disabled>‹</button>
+      <button class="hots-section__nav hots-section__nav--next" onclick="scrollHots('next')">›</button>
+      
+      <div class="hots-section__track" id="hots-track">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hots-section__dots" id="hots-dots"></div>
+    
+    <!-- New Arrivals Section -->
+    <div class="new-arrivals">
+      <div class="new-arrivals__container">
+        <div class="new-arrivals__header">
+          <h3 class="new-arrivals__title">{{ section.settings.recent_title | default: 'New Arrivals' }}</h3>
+        </div>
+        
+        <div class="new-arrivals__carousel" id="new-arrivals-carousel">
+          <div class="new-arrivals__track" id="recent-track">
+            <div class="loading-spinner">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% comment %} Prepare Shopify products data {% endcomment %}
+{% if section.settings.display_method == 'collection' and section.settings.featured_collection != blank %}
+  {% assign source_collection = collections[section.settings.featured_collection] %}
+  {% assign source_products = source_collection.products | slice: 0, 8 %}
+{% elsif section.settings.display_method == 'specific_products' and section.settings.specific_products != blank %}
+  {% assign source_products = section.settings.specific_products | slice: 0, 8 %}
+{% else %}
+  {% comment %} Most popular products (default) {% endcomment %}
+  {% assign source_products = collections.all.products | slice: 0, 8 %}
+{% endif %}
+
+<script>
+// Embed Shopify products data
+window.shopifyHotsProducts = [
+  {% for product in source_products %}
+    {
+      id: '{{ product.id }}',
+      title: {{ product.title | json }},
+      price: '{{ product.price | money }}',
+      {% if product.compare_at_price > product.price %}
+      comparePrice: '{{ product.compare_at_price | money }}',
+      {% else %}
+      comparePrice: null,
+      {% endif %}
+      image: '{% if product.featured_image %}{{ product.featured_image | image_url: width: 300 }}{% else %}{{ "banner-homepage-1-desktop.jpg" | asset_url }}{% endif %}',
+      url: '{{ product.url }}',
+      handle: '{{ product.handle }}',
+      badge: '{{ product.metafields.custom.badge | default: "trending" }}',
+      addedDate: '{{ product.created_at | date: "%Y-%m-%d" }}'
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
+
+// Embed recent products data
+{% assign recent_products = collections.all.products | sort: 'created_at' | reverse | slice: 0, 8 %}
+window.shopifyRecentProducts = [
+  {% for product in recent_products %}
+    {
+      id: '{{ product.id }}',
+      title: {{ product.title | json }},
+      price: '{{ product.price | money }}',
+      {% if product.compare_at_price > product.price %}
+      comparePrice: '{{ product.compare_at_price | money }}',
+      {% else %}
+      comparePrice: null,
+      {% endif %}
+      image: '{% if product.featured_image %}{{ product.featured_image | image_url: width: 300 }}{% else %}{{ "banner-homepage-1-mobile.jpg" | asset_url }}{% endif %}',
+      url: '{{ product.url }}',
+      handle: '{{ product.handle }}',
+      addedDate: '{{ product.created_at | date: "%Y-%m-%d" }}'
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
+
+document.addEventListener('DOMContentLoaded', function() {
+  const hotsTrack = document.getElementById('hots-track');
+  const recentTrack = document.getElementById('recent-track');
+  const hotsBadge = document.getElementById('hots-badge');
+  const hotsTitle = document.getElementById('hots-title');
+  const hotsSubtitle = document.getElementById('hots-subtitle');
+  const hotsDots = document.getElementById('hots-dots');
+  
+  let currentHotsPosition = 0;
+  let currentRecentPosition = 0;
+  let currentVariation = 0;
+  
+  // Variation configurations
+  const variations = [
+    {
+      badge: 'Trending Now',
+      title: 'Trending',
+      subtitle: 'What everyone is talking about',
+      method: 'trending'
+    },
+    {
+      badge: 'Bestsellers',
+      title: 'Bestsellers',
+      subtitle: 'Most loved by our customers',
+      method: 'bestsellers'
+    },
+    {
+      badge: 'Most Popular',
+      title: 'Most Popular',
+      subtitle: 'Customer favorites this month',
+      method: 'popular'
+    },
+    {
+      badge: 'New Arrivals',
+      title: 'New Arrivals',
+      subtitle: 'Fresh picks just for you',
+      method: 'new'
+    },
+    {
+      badge: 'Exclusive',
+      title: 'Exclusive',
+      subtitle: 'Limited edition collections',
+      method: 'exclusive'
+    },
+    {
+      badge: 'Hot Deals',
+      title: 'Hot Deals',
+      subtitle: "Best offers you can't miss",
+      method: 'deals'
+    }
+  ];
+  
+  // Initialize with random variation
+  setRandomVariation();
+  loadHotsProducts();
+  loadRecentProducts();
+  
+  function setRandomVariation() {
+    currentVariation = Math.floor(Math.random() * variations.length);
+    const variation = variations[currentVariation];
+    
+    hotsTitle.textContent = variation.title;
+    hotsSubtitle.textContent = variation.subtitle;
+  }
+  
+  async function loadHotsProducts() {
+    try {
+      const variation = variations[currentVariation];
+      
+      // Get products from Shopify data embedded in the page
+      const shopifyProducts = window.shopifyHotsProducts || [];
+      
+      // Sort products based on current variation
+      const products = sortProductsByMethod(shopifyProducts, variation.method);
+      
+      renderHotsProducts(products);
+      updateHotsNavigation();
+      createDots(products.length);
+    } catch (error) {
+      console.error('Error loading hots products:', error);
+      hotsTrack.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Unable to load products. Please try again later.</p>';
+    }
+  }
+  
+  function sortProductsByMethod(products, method) {
+    switch(method) {
+      case 'trending':
+        return [...products].sort((a, b) => b.viewCount - a.viewCount);
+      case 'bestsellers':
+        return [...products].sort((a, b) => b.orderCount - a.orderCount);
+      case 'popular':
+        return [...products].sort((a, b) => (b.orderCount * 0.7 + b.reviewCount * 0.3) - (a.orderCount * 0.7 + a.reviewCount * 0.3));
+      case 'new':
+        return [...products].sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate));
+      case 'exclusive':
+        return [...products].filter(p => p.badge === 'exclusive' || p.badge === 'limited-edition');
+      case 'deals':
+        return [...products].filter(p => p.comparePrice).sort((a, b) => {
+          const discountA = (parseFloat(a.comparePrice.replace(/[₹,]/g, '')) - parseFloat(a.price.replace(/[₹,]/g, ''))) / parseFloat(a.comparePrice.replace(/[₹,]/g, ''));
+          const discountB = (parseFloat(b.comparePrice.replace(/[₹,]/g, '')) - parseFloat(b.price.replace(/[₹,]/g, ''))) / parseFloat(b.comparePrice.replace(/[₹,]/g, ''));
+          return discountB - discountA;
+        });
+      default:
+        return products;
+    }
+  }
+  
+  function renderHotsProducts(products) {
+    const html = products.map(product => {
+      const discount = product.comparePrice ? Math.round(((parseFloat(product.comparePrice.replace(/[₹,$]/g, '')) - parseFloat(product.price.replace(/[₹,$]/g, ''))) / parseFloat(product.comparePrice.replace(/[₹,$]/g, ''))) * 100) : null;
+      
+      return `
+        <div class="hots-section__product-card" onclick="window.open('${product.url}', '_blank')">
+          <img src="${product.image}" alt="${product.title}" class="hots-section__product-image" loading="lazy">
+          <div class="hots-section__product-content">
+            <h3 class="hots-section__product-title">${product.title}</h3>
+            <div class="hots-section__product-price">
+              <span class="hots-section__current-price">${product.price}</span>
+              ${product.comparePrice ? `<span class="hots-section__compare-price">${product.comparePrice}</span>` : ''}
+              ${discount ? `<span class="hots-section__discount">${discount}% OFF</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    hotsTrack.innerHTML = html;
+  }
+  
+  async function loadRecentProducts() {
+    try {
+      // Get products from Shopify data embedded in the page
+      const recentProducts = window.shopifyRecentProducts || [];
+      
+      renderRecentProducts(recentProducts);
+    } catch (error) {
+      console.error('Error loading recent products:', error);
+      recentTrack.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Unable to load recent products.</p>';
+    }
+  }
+  
+  function renderRecentProducts(products) {
+    const html = products.map(product => {
+      const discount = product.comparePrice ? Math.round(((parseFloat(product.comparePrice.replace(/[₹,$]/g, '')) - parseFloat(product.price.replace(/[₹,$]/g, ''))) / parseFloat(product.comparePrice.replace(/[₹,$]/g, ''))) * 100) : null;
+      
+      return `
+        <div class="new-arrivals__product-card" onclick="window.open('${product.url}', '_blank')">
+          <img src="${product.image}" alt="${product.title}" class="new-arrivals__product-image" loading="lazy">
+          <div class="new-arrivals__product-content">
+            <h4 class="new-arrivals__product-title">${product.title}</h4>
+            <div class="new-arrivals__product-price">
+              <span class="new-arrivals__current-price">${product.price}</span>
+              ${product.comparePrice ? `<span class="new-arrivals__compare-price">${product.comparePrice}</span>` : ''}
+              ${discount ? `<span class="new-arrivals__discount">${discount}% OFF</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    recentTrack.innerHTML = html;
+  }
+  
+  function getBadgeText(badge) {
+    const badgeMap = {
+      'trending': 'Trending',
+      'bestseller': 'Bestseller',
+      'new-arrival': 'New',
+      'limited-edition': 'Limited',
+      'sale': 'Sale',
+      'exclusive': 'Exclusive'
+    };
+    return badgeMap[badge] || 'Hot';
+  }
+  
+  function formatViews(views) {
+    if (views >= 1000) {
+      return (views / 1000).toFixed(1) + 'K';
+    }
+    return views.toString();
+  }
+  
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) return 'today';
+    if (diffDays === 2) return 'yesterday';
+    if (diffDays <= 7) return `${diffDays - 1} days ago`;
+    return date.toLocaleDateString();
+  }
+  
+  function updateHotsCarousel() {
+    const cardWidth = 296; // 280px + 16px gap
+    const maxScroll = Math.max(0, (6 * cardWidth) - hotsTrack.parentElement.offsetWidth);
+    
+    currentHotsPosition = Math.max(0, Math.min(currentHotsPosition, maxScroll));
+    hotsTrack.style.transform = `translateX(-${currentHotsPosition}px)`;
+    updateHotsNavigation();
+  }
+  
+  function updateRecentCarousel() {
+    const cardWidth = 236; // 220px + 16px gap
+    const maxScroll = Math.max(0, (5 * cardWidth) - recentTrack.parentElement.offsetWidth);
+    
+    currentRecentPosition = Math.max(0, Math.min(currentRecentPosition, maxScroll));
+    recentTrack.style.transform = `translateX(-${currentRecentPosition}px)`;
+    updateRecentNavigation();
+  }
+  
+  function updateHotsNavigation() {
+    const cardWidth = 296;
+    const maxScroll = Math.max(0, (6 * cardWidth) - hotsTrack.parentElement.offsetWidth);
+    
+    const prevBtn = document.querySelector('.hots-section__nav--prev');
+    const nextBtn = document.querySelector('.hots-section__nav--next');
+    
+    prevBtn.disabled = currentHotsPosition <= 0;
+    nextBtn.disabled = currentHotsPosition >= maxScroll;
+  }
+  
+  function updateRecentNavigation() {
+    const cardWidth = 236;
+    const maxScroll = Math.max(0, (5 * cardWidth) - recentTrack.parentElement.offsetWidth);
+    
+    const prevBtns = document.querySelectorAll('.recently-added__carousel .hots-section__nav--prev');
+    const nextBtns = document.querySelectorAll('.recently-added__carousel .hots-section__nav--next');
+    
+    prevBtns.forEach(btn => btn.disabled = currentRecentPosition <= 0);
+    nextBtns.forEach(btn => btn.disabled = currentRecentPosition >= maxScroll);
+  }
+  
+  function createDots(productCount) {
+    const dotsPerPage = Math.floor(hotsTrack.parentElement.offsetWidth / 296);
+    const totalDots = Math.ceil(productCount / dotsPerPage);
+    
+    if (totalDots <= 1) {
+      hotsDots.innerHTML = '';
+      return;
+    }
+    
+    const dotsHtml = Array.from({ length: totalDots }, (_, i) => 
+      `<div class="hots-section__dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>`
+    ).join('');
+    
+    hotsDots.innerHTML = dotsHtml;
+  }
+  
+  window.scrollHots = function(direction) {
+    const cardWidth = 296;
+    const scrollAmount = cardWidth * 2;
+    
+    if (direction === 'next') {
+      currentHotsPosition += scrollAmount;
+    } else {
+      currentHotsPosition -= scrollAmount;
+    }
+    
+    updateHotsCarousel();
+  };
+  
+  window.scrollRecent = function(direction) {
+    const cardWidth = 236;
+    const scrollAmount = cardWidth * 2;
+    
+    if (direction === 'next') {
+      currentRecentPosition += scrollAmount;
+    } else {
+      currentRecentPosition -= scrollAmount;
+    }
+    
+    updateRecentCarousel();
+  };
+  
+  window.goToSlide = function(slideIndex) {
+    const cardWidth = 296;
+    const cardsPerView = Math.floor(hotsTrack.parentElement.offsetWidth / cardWidth);
+    currentHotsPosition = slideIndex * cardWidth * cardsPerView;
+    updateHotsCarousel();
+    
+    // Update active dot
+    document.querySelectorAll('.hots-section__dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === slideIndex);
+    });
+  };
+  
+  // Add touch/swipe functionality for New Arrivals section
+  const newArrivalsCarousel = document.getElementById('new-arrivals-carousel');
+  if (newArrivalsCarousel) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    
+    newArrivalsCarousel.addEventListener('mousedown', (e) => {
+      isDown = true;
+      newArrivalsCarousel.classList.add('active');
+      startX = e.pageX - newArrivalsCarousel.offsetLeft;
+      scrollLeft = newArrivalsCarousel.scrollLeft;
+    });
+    
+    newArrivalsCarousel.addEventListener('mouseleave', () => {
+      isDown = false;
+      newArrivalsCarousel.classList.remove('active');
+    });
+    
+    newArrivalsCarousel.addEventListener('mouseup', () => {
+      isDown = false;
+      newArrivalsCarousel.classList.remove('active');
+    });
+    
+    newArrivalsCarousel.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - newArrivalsCarousel.offsetLeft;
+      const walk = (x - startX) * 2;
+      newArrivalsCarousel.scrollLeft = scrollLeft - walk;
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Hots Section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Hots"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Discover what everyone is buying"
+    },
+    {
+      "type": "header",
+      "content": "Display Method"
+    },
+    {
+      "type": "select",
+      "id": "display_method",
+      "label": "Product Display Method",
+      "default": "popular",
+      "options": [
+        {
+          "value": "popular",
+          "label": "Most Popular (Default - Based on Orders)"
+        },
+        {
+          "value": "collection",
+          "label": "From Specific Collection"
+        },
+        {
+          "value": "specific_products",
+          "label": "Specific Products"
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Featured Collection",
+      "info": "Select a collection (only used if Display Method is 'From Specific Collection')"
+    },
+    {
+      "type": "product_list",
+      "id": "specific_products",
+      "label": "Specific Products",
+      "info": "Select specific products (only used if Display Method is 'Specific Products')"
+    },
+    {
+      "type": "header",
+      "content": "New Arrivals Section"
+    },
+    {
+      "type": "text",
+      "id": "recent_title",
+      "label": "New Arrivals Title",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "number",
+      "id": "recent_products_count",
+      "label": "Number of Recent Products",
+      "default": 8,
+      "info": "Maximum number of recently added products to display"
+    },
+    {
+      "type": "header",
+      "content": "Display Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ratings",
+      "label": "Show Product Ratings",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Product Statistics (sold count, views)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate_variations",
+      "label": "Auto-rotate Variations on Page Load",
+      "default": true,
+      "info": "Randomly select from 6 different variations (Trending, Bestsellers, Popular, New, Exclusive, Deals)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hots Section"
+    }
+  ]
+}
+{% endschema %}

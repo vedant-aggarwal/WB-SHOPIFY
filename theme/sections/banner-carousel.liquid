@@ -1,0 +1,402 @@
+{% stylesheet %}
+/* Swiper CSS */
+.swiper {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  position: relative;
+  left: 0;
+  right: 0;
+}
+
+.banner-swiper {
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+}
+
+/* Mobile: 3:4 aspect ratio */
+@media (max-width: 768px) {
+  .banner-swiper {
+    aspect-ratio: 3/4;
+  }
+}
+
+/* Desktop: 16:9 aspect ratio */
+@media (min-width: 769px) {
+  .swiper {
+    aspect-ratio: 16/9;
+  }
+}
+
+.swiper-slide {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.swiper-slide picture {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.banner-carousel__media {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background-color: #F5F5DC;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.banner-carousel__video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background-color: #F5F5DC;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.banner-carousel__placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #8B4513, #A0522D);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Swiper Pagination */
+.swiper-pagination {
+  bottom: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  width: auto !important;
+  text-align: right;
+}
+
+.swiper-pagination-bullet {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 4px !important;
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1 !important;
+  transition: width 0.3s ease, background-color 0.3s ease !important;
+}
+
+.swiper-pagination-bullet-active {
+  width: 24px !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+@media (max-width: 768px) {
+  .swiper-pagination {
+    bottom: 15px !important;
+    right: 15px !important;
+  }
+  
+  .swiper-pagination-bullet {
+    width: 6px !important;
+    height: 6px !important;
+  }
+  
+  .swiper-pagination-bullet-active {
+    width: 18px !important;
+  }
+  
+  .banner-carousel__placeholder {
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
+}
+{% endstylesheet %}
+
+<div class="swiper banner-swiper">
+  <div class="swiper-wrapper">
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'banner' %}
+          <div class="swiper-slide" 
+               {% if block.settings.redirect_url != blank %}data-url="{{ block.settings.redirect_url }}"{% endif %}>
+            
+            {% comment %} Check for video first {% endcomment %}
+            {% if block.settings.desktop_video != blank or block.settings.mobile_video != blank %}
+              {% comment %} Video banner {% endcomment %}
+              <video class="banner-carousel__video" autoplay muted loop playsinline>
+                {% if block.settings.desktop_video != blank %}
+                  <source media="(min-width: 769px)" src="{{ block.settings.desktop_video | asset_url }}" type="video/mp4">
+                {% endif %}
+                {% if block.settings.mobile_video != blank %}
+                  <source src="{{ block.settings.mobile_video | asset_url }}" type="video/mp4">
+                {% endif %}
+              </video>
+              
+            {% elsif block.settings.desktop_image != blank or block.settings.mobile_image != blank %}
+              {% comment %} Image banner {% endcomment %}
+              <picture>
+                {% if block.settings.desktop_image != blank %}
+                  <source media="(min-width: 769px)" srcset="{{ block.settings.desktop_image | asset_url }}">
+                {% endif %}
+                {% if block.settings.mobile_image != blank %}
+                  <img src="{{ block.settings.mobile_image | asset_url }}" 
+                       alt="{{ block.settings.alt_text | default: 'Banner' }}" 
+                       class="banner-carousel__media">
+                {% else %}
+                  <img src="{{ block.settings.desktop_image | asset_url }}" 
+                       alt="{{ block.settings.alt_text | default: 'Banner' }}" 
+                       class="banner-carousel__media">
+                {% endif %}
+              </picture>
+              
+            {% else %}
+              {% comment %} Placeholder banner {% endcomment %}
+              <div class="banner-carousel__placeholder">
+                <div>
+                  <div style="font-weight: bold; margin-bottom: 0.5rem;">Banner {{ forloop.index }}</div>
+                  <div style="font-size: 0.9rem; opacity: 0.8;">Upload images in the theme editor</div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      {% comment %} Default banners when no blocks are configured {% endcomment %}
+      {% assign default_banners = 'banner-homepage-1,banner-homepage-2,banner-homepage-3,banner-homepage-4,banner-homepage-5' | split: ',' %}
+      {% assign default_collections = '/collections/sarees,/collections/lehengas,/collections/dresses,/collections/suits,/collections/accessories' | split: ',' %}
+      {% for banner in default_banners %}
+        <div class="swiper-slide" data-url="{{ default_collections[forloop.index0] }}">
+          <picture>
+            <source media="(min-width: 769px)" srcset="{{ banner | append: '-desktop.jpg' | asset_url }}">
+            <img src="{{ banner | append: '-mobile.jpg' | asset_url }}" 
+                 alt="Fashion Collection Banner {{ forloop.index }}" 
+                 class="banner-carousel__media">
+          </picture>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+  
+  {% assign total_banners = section.blocks.size | default: 5 %}
+  {% if total_banners > 1 %}
+    <div class="swiper-pagination"></div>
+  {% endif %}
+</div>
+
+<!-- Swiper JS CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const bannerSwiper = new Swiper('.banner-swiper', {
+    // Swiper options
+    slidesPerView: 1,
+    spaceBetween: 0,
+    loop: true,
+    centeredSlides: true,
+    autoplay: {
+      delay: 7000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    speed: 600,
+    effect: 'slide',
+    
+    // Touch settings for mobile-friendly behavior
+    touchRatio: 1,
+    touchAngle: 45,
+    grabCursor: true,
+    allowTouchMove: true,
+    
+    // Pagination
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      dynamicBullets: false,
+    },
+    
+    // Navigation arrows (optional)
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    
+    // Keyboard navigation
+    keyboard: {
+      enabled: true,
+      onlyInViewport: true,
+    },
+    
+    // Accessibility
+    a11y: {
+      prevSlideMessage: 'Previous slide',
+      nextSlideMessage: 'Next slide',
+      firstSlideMessage: 'This is the first slide',
+      lastSlideMessage: 'This is the last slide',
+      paginationBulletMessage: 'Go to slide {{index}}',
+    },
+    
+    // Debug
+    on: {
+      init: function () {
+        console.log('Banner Swiper initialized with', this.slides.length, 'slides');
+      }
+    }
+  });
+  
+  // Click to redirect functionality
+  const slides = document.querySelectorAll('.swiper-slide');
+  slides.forEach((slide) => {
+    slide.addEventListener('click', () => {
+      const url = slide.dataset.url;
+      if (url) {
+        if (url.startsWith('http') || url.startsWith('//')) {
+          window.open(url, '_blank');
+        } else {
+          window.location.href = url;
+        }
+      }
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Banner Carousel",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Instructions"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add banner blocks below. Each banner can have desktop and mobile images, or videos. Desktop images should be 16:9 aspect ratio, mobile images should be 3:4 aspect ratio."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Desktop Media (16:9 aspect ratio)"
+        },
+        {
+          "type": "text",
+          "id": "desktop_image",
+          "label": "Desktop Image Filename",
+          "info": "Upload image to assets folder and enter filename (e.g., 'banner-homepage-1-desktop.jpg')"
+        },
+        {
+          "type": "text",
+          "id": "desktop_video",
+          "label": "Desktop Video Filename",
+          "info": "Optional: Upload MP4 to assets folder and enter filename (e.g., 'banner-1-desktop.mp4')"
+        },
+        {
+          "type": "header",
+          "content": "Mobile Media (3:4 aspect ratio)"
+        },
+        {
+          "type": "text",
+          "id": "mobile_image",
+          "label": "Mobile Image Filename",
+          "info": "Upload image to assets folder and enter filename (e.g., 'banner-homepage-1-mobile.jpg')"
+        },
+        {
+          "type": "text",
+          "id": "mobile_video",
+          "label": "Mobile Video Filename",
+          "info": "Optional: Upload MP4 to assets folder and enter filename (e.g., 'banner-1-mobile.mp4')"
+        },
+        {
+          "type": "header",
+          "content": "Banner Settings"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt Text",
+          "info": "Describe the banner for accessibility"
+        },
+        {
+          "type": "url",
+          "id": "redirect_url",
+          "label": "Click Redirect URL",
+          "info": "Where should this banner redirect when clicked? Leave empty for no redirect."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner Carousel",
+      "blocks": [
+        {
+          "type": "banner",
+          "settings": {
+            "desktop_image": "banner-homepage-1-desktop.jpg",
+            "mobile_image": "banner-homepage-1-mobile.jpg",
+            "alt_text": "Fashion Collection Banner 1",
+            "redirect_url": "/collections/sarees"
+          }
+        },
+        {
+          "type": "banner",
+          "settings": {
+            "desktop_image": "banner-homepage-2-desktop.jpg",
+            "mobile_image": "banner-homepage-2-mobile.jpg",
+            "alt_text": "Fashion Collection Banner 2",
+            "redirect_url": "/collections/lehengas"
+          }
+        },
+        {
+          "type": "banner",
+          "settings": {
+            "desktop_image": "banner-homepage-3-desktop.jpg",
+            "mobile_image": "banner-homepage-3-mobile.jpg",
+            "alt_text": "Fashion Collection Banner 3",
+            "redirect_url": "/collections/dresses"
+          }
+        },
+        {
+          "type": "banner",
+          "settings": {
+            "desktop_image": "banner-homepage-4-desktop.jpg",
+            "mobile_image": "banner-homepage-4-mobile.jpg",
+            "alt_text": "Fashion Collection Banner 4",
+            "redirect_url": "/collections/suits"
+          }
+        },
+        {
+          "type": "banner",
+          "settings": {
+            "desktop_image": "banner-homepage-5-desktop.jpg",
+            "mobile_image": "banner-homepage-5-mobile.jpg",
+            "alt_text": "Fashion Collection Banner 5",
+            "redirect_url": "/collections/accessories"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

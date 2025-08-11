@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "main": {
+      "type": "accessories-cat"
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "main": {
+      "type": "mens-accessories-cat"
+    }
+  },
+  "order": ["main"]
+}

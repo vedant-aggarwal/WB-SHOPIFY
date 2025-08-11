@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "terms-and-conditions-page",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

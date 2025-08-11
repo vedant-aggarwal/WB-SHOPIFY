@@ -1,0 +1,750 @@
+{% stylesheet %}
+.shop-by-videos {
+  padding: 0 0 3rem 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background-color: #fafafa;
+}
+
+.shop-by-videos__container {
+  width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.shop-by-videos__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.shop-by-videos__title {
+  color: #8B4513;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+
+.shop-by-videos__carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-by-videos__track {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.3s ease;
+  padding: 0.5rem 0;
+}
+
+.shop-by-videos__video-card {
+  flex: 0 0 auto;
+  width: 280px;
+  height: 500px;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  aspect-ratio: 9/16;
+}
+
+.shop-by-videos__video-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.shop-by-videos__thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.shop-by-videos__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(transparent 40%, rgba(0,0,0,0.8));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.shop-by-videos__video-card:hover .shop-by-videos__overlay {
+  opacity: 1;
+}
+
+.shop-by-videos__play-btn {
+  width: 60px;
+  height: 60px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #8B4513;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+
+.shop-by-videos__video-card:hover .shop-by-videos__play-btn {
+  transform: scale(1);
+  background: white;
+}
+
+.shop-by-videos__info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  color: white;
+}
+
+.shop-by-videos__stats {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.shop-by-videos__likes {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.shop-by-videos__products-count {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(139, 69, 19, 0.9);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  backdrop-filter: blur(10px);
+}
+
+.shop-by-videos__products-preview {
+  position: absolute;
+  top: 40px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 120px;
+}
+
+.shop-by-videos__product-tag {
+  background: rgba(139, 69, 19, 0.8);
+  color: white;
+  backdrop-filter: blur(10px);
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shop-by-videos__carousel {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.shop-by-videos__carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Video Modal */
+.video-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.video-modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.video-modal__content {
+  max-width: 90vw;
+  max-height: 90vh;
+  position: relative;
+  display: flex;
+  gap: 2rem;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.video-modal__video-container {
+  flex: 0 0 auto;
+  max-width: 400px;
+  aspect-ratio: 9/16;
+  background: #000;
+}
+
+.video-modal__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-modal__sidebar {
+  flex: 1;
+  padding: 2rem;
+  max-width: 350px;
+  overflow-y: auto;
+}
+
+.video-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  z-index: 10;
+  transition: background 0.3s ease;
+}
+
+.video-modal__close:hover {
+  background: rgba(0,0,0,1);
+}
+
+.video-modal__title {
+  color: #8B4513;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.video-modal__caption {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.video-modal__products {
+  margin-top: 1rem;
+}
+
+.video-modal__products h4 {
+  color: #8B4513;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.video-modal__product {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.video-modal__product:hover {
+  border-color: #8B4513;
+  box-shadow: 0 2px 8px rgba(139,69,19,0.1);
+  transform: translateY(-2px);
+}
+
+.video-modal__product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.video-modal__product-info h5 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.video-modal__product-price {
+  font-weight: bold;
+  color: #8B4513;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .shop-by-videos {
+    padding: 2rem 0;
+  }
+  
+  .shop-by-videos__title {
+    font-size: 1.5rem;
+  }
+  
+  .shop-by-videos__controls {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .shop-by-videos__filter-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  .shop-by-videos__video-card {
+    width: 240px;
+    height: 420px;
+  }
+  
+  .video-modal__content {
+    flex-direction: column;
+    max-height: 95vh;
+    margin: 1rem;
+  }
+  
+  .video-modal__video-container {
+    max-width: 100%;
+    aspect-ratio: 16/9;
+  }
+  
+  .video-modal__sidebar {
+    max-width: 100%;
+    padding: 1rem;
+  }
+}
+
+/* Loading States */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #8B4513;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+{% endstylesheet %}
+
+<section class="shop-by-videos">
+  <div class="shop-by-videos__container">
+    <div class="shop-by-videos__header">
+      <h2 class="shop-by-videos__title">{{ section.settings.title | default: 'Shop by Videos' }}</h2>
+    </div>
+    
+    <div class="shop-by-videos__carousel" id="videos-carousel">
+      <div class="shop-by-videos__track" id="videos-track">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video Modal -->
+<div class="video-modal" id="shop-video-modal">
+  <div class="video-modal__content">
+    <button class="video-modal__close" onclick="closeShopVideoModal()">&times;</button>
+    <div class="video-modal__video-container">
+      <video class="video-modal__video" id="shop-modal-video" controls autoplay loop muted>
+        <source src="" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-modal__sidebar">
+      <h3 class="video-modal__title" id="shop-modal-title">Instagram Reel</h3>
+      <p class="video-modal__caption" id="shop-modal-caption"></p>
+      <div class="video-modal__products" id="shop-modal-products">
+        <!-- Products will be dynamically added here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const videosTrack = document.getElementById('videos-track');
+  const videosCarousel = document.getElementById('videos-carousel');
+  
+  let allVideos = [];
+  
+  // Initialize videos
+  loadShopVideos();
+  
+  // Add touch/swipe functionality
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  
+  videosCarousel.addEventListener('mousedown', (e) => {
+    isDown = true;
+    videosCarousel.classList.add('active');
+    startX = e.pageX - videosCarousel.offsetLeft;
+    scrollLeft = videosCarousel.scrollLeft;
+  });
+  
+  videosCarousel.addEventListener('mouseleave', () => {
+    isDown = false;
+    videosCarousel.classList.remove('active');
+  });
+  
+  videosCarousel.addEventListener('mouseup', () => {
+    isDown = false;
+    videosCarousel.classList.remove('active');
+  });
+  
+  videosCarousel.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - videosCarousel.offsetLeft;
+    const walk = (x - startX) * 2;
+    videosCarousel.scrollLeft = scrollLeft - walk;
+  });
+  
+  async function loadShopVideos() {
+    try {
+      // Try to fetch from Instagram app first
+      const appUrl = '{{ section.settings.app_url | default: "" }}';
+      
+      if (appUrl) {
+        try {
+          const response = await fetch(`${appUrl}/api/reels`);
+          const data = await response.json();
+          
+          if (data.success && data.data.length > 0) {
+            allVideos = data.data.map(reel => ({
+              id: reel.id,
+              thumbnail: reel.thumbnail_url,
+              video_url: reel.media_url,
+              caption: reel.caption,
+              likes: reel.likes,
+              isPinned: reel.isPinned,
+              hasProducts: reel.hasProducts,
+              createdAt: reel.timestamp,
+              products: reel.products || []
+            }));
+            
+            renderVideos();
+            return;
+          }
+        } catch (appError) {
+          console.warn('Instagram app not available, using fallback data:', appError);
+        }
+      }
+      
+      // Fallback to mock data if app is not available
+      const mockVideos = [
+        {
+          id: '1',
+          thumbnail: '{{ "banner-homepage-1-mobile.jpg" | asset_url }}',
+          video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          caption: 'Stunning red saree collection perfect for weddings',
+          likes: 2450,
+          isPinned: true,
+          hasProducts: true,
+          createdAt: '2025-08-01',
+          products: [
+            { 
+              id: 'red-silk-saree', 
+              title: 'Red Silk Saree', 
+              price: '₹12,999', 
+              image: '{{ "banner-homepage-2-mobile.jpg" | asset_url }}',
+              url: '/products/red-silk-saree'
+            }
+          ]
+        },
+        {
+          id: '2',
+          thumbnail: '{{ "banner-homepage-2-mobile.jpg" | asset_url }}',
+          video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          caption: 'Trendy kurta styling for everyday wear',
+          likes: 1890,
+          isPinned: false,
+          hasProducts: true,
+          createdAt: '2025-07-30',
+          products: [
+            { 
+              id: 'cotton-kurta', 
+              title: 'Cotton Kurta Set', 
+              price: '₹2,499', 
+              image: '{{ "banner-homepage-4-mobile.jpg" | asset_url }}',
+              url: '/products/cotton-kurta'
+            }
+          ]
+        },
+        {
+          id: '3',
+          thumbnail: '{{ "banner-homepage-3-mobile.jpg" | asset_url }}',
+          video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          caption: 'Designer lehenga for special occasions',
+          likes: 3100,
+          isPinned: false,
+          hasProducts: true,
+          createdAt: '2025-07-28',
+          products: [
+            { 
+              id: 'designer-lehenga', 
+              title: 'Designer Lehenga Choli', 
+              price: '₹18,999', 
+              image: '{{ "banner-homepage-5-mobile.jpg" | asset_url }}',
+              url: '/products/designer-lehenga'
+            }
+          ]
+        }
+      ];
+      
+      allVideos = mockVideos;
+      renderVideos();
+    } catch (error) {
+      console.error('Error loading shop videos:', error);
+      videosTrack.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Unable to load videos. Please try again later.</p>';
+    }
+  }
+  
+  function renderVideos() {
+    const html = allVideos.map(video => `
+      <div class="shop-by-videos__video-card" 
+           onclick="openShopVideoModal('${video.id}', '${video.video_url}', '${video.caption}', '${video.likes}', ${JSON.stringify(video.products).replace(/"/g, '&quot;')})">
+        <img src="${video.thumbnail}" alt="Video thumbnail" class="shop-by-videos__thumbnail" loading="lazy">
+        ${video.products.length > 0 ? `<div class="shop-by-videos__products-count">${video.products.length} products</div>` : ''}
+        <div class="shop-by-videos__products-preview">
+          ${video.products.slice(0, 2).map(product => 
+            `<span class="shop-by-videos__product-tag">${product.title}</span>`
+          ).join('')}
+          ${video.products.length > 2 ? `<span class="shop-by-videos__product-tag">+${video.products.length - 2}</span>` : ''}
+        </div>
+        <div class="shop-by-videos__overlay">
+          <div class="shop-by-videos__play-btn">▶</div>
+        </div>
+        <div class="shop-by-videos__info">
+          <div class="shop-by-videos__stats">
+            <div class="shop-by-videos__likes">
+              <span>❤</span>
+              <span>${formatLikes(video.likes)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    
+    videosTrack.innerHTML = html;
+  }
+  
+  function formatLikes(likes) {
+    if (likes >= 1000) {
+      return (likes / 1000).toFixed(1) + 'K';
+    }
+    return likes.toString();
+  }
+  
+  function updateCarousel() {
+    const cardWidth = 296; // 280px + 16px gap
+    const maxScroll = Math.max(0, (filteredVideos.length * cardWidth) - videosTrack.parentElement.offsetWidth);
+    
+    currentScrollPosition = Math.max(0, Math.min(currentScrollPosition, maxScroll));
+    videosTrack.style.transform = `translateX(-${currentScrollPosition}px)`;
+    updateNavigation();
+  }
+  
+  function updateNavigation() {
+    const cardWidth = 296;
+    const maxScroll = Math.max(0, (filteredVideos.length * cardWidth) - videosTrack.parentElement.offsetWidth);
+    
+    prevBtn.disabled = currentScrollPosition <= 0;
+    nextBtn.disabled = currentScrollPosition >= maxScroll;
+  }
+  
+  window.scrollVideos = function(direction) {
+    const cardWidth = 296;
+    const scrollAmount = cardWidth * 2; // Scroll 2 cards at a time
+    
+    if (direction === 'next') {
+      currentScrollPosition += scrollAmount;
+    } else {
+      currentScrollPosition -= scrollAmount;
+    }
+    
+    updateCarousel();
+  };
+  
+  // Window resize handler
+  window.addEventListener('resize', updateCarousel);
+});
+
+// Video modal functions
+function openShopVideoModal(videoId, videoUrl, caption, likes, products) {
+  const modal = document.getElementById('shop-video-modal');
+  const video = document.getElementById('shop-modal-video');
+  const title = document.getElementById('shop-modal-title');
+  const captionEl = document.getElementById('shop-modal-caption');
+  const productsContainer = document.getElementById('shop-modal-products');
+  
+  // Set video source
+  video.querySelector('source').src = videoUrl;
+  video.load();
+  
+  // Set content
+  title.textContent = `Instagram Reel (❤ ${likes})`;
+  captionEl.textContent = caption;
+  
+  // Render products
+  if (products && products.length > 0) {
+    const productsHtml = products.map(product => `
+      <div class="video-modal__product" onclick="window.open('${product.url}', '_blank')">
+        <img src="${product.image}" alt="${product.title}" class="video-modal__product-image" loading="lazy">
+        <div class="video-modal__product-info">
+          <h5>${product.title}</h5>
+          <div class="video-modal__product-price">${product.price}</div>
+        </div>
+      </div>
+    `).join('');
+    productsContainer.innerHTML = `<h4>Featured Products:</h4>${productsHtml}`;
+  } else {
+    productsContainer.innerHTML = '<p>No products tagged in this video.</p>';
+  }
+  
+  // Show modal
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeShopVideoModal() {
+  const modal = document.getElementById('shop-video-modal');
+  const video = document.getElementById('shop-modal-video');
+  
+  modal.classList.remove('active');
+  video.pause();
+  document.body.style.overflow = '';
+}
+
+// Close modal when clicking outside
+document.getElementById('shop-video-modal').addEventListener('click', (e) => {
+  if (e.target.id === 'shop-video-modal') {
+    closeShopVideoModal();
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Shop by Videos",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Shop by Videos"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Discover products through our Instagram reels"
+    },
+    {
+      "type": "header",
+      "content": "Instagram Integration Settings"
+    },
+    {
+      "type": "text",
+      "id": "instagram_username",
+      "label": "Instagram Username",
+      "default": "wonder.bazaar",
+      "info": "Instagram account to fetch reels from"
+    },
+    {
+      "type": "text",
+      "id": "app_url",
+      "label": "Instagram App URL",
+      "info": "URL of your deployed Instagram integration app (e.g., https://your-app.herokuapp.com)",
+      "placeholder": "https://your-instagram-app.herokuapp.com"
+    },
+    {
+      "type": "text",
+      "id": "instagram_access_token",
+      "label": "Instagram Graph API Access Token",
+      "info": "Required for live Instagram integration (2025 Graph API)"
+    },
+    {
+      "type": "number",
+      "id": "max_videos",
+      "label": "Maximum Videos to Display",
+      "default": 10,
+      "info": "Maximum number of videos to fetch and display"
+    },
+    {
+      "type": "header",
+      "content": "Display Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show Filter Buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_play_modal",
+      "label": "Auto-play Videos in Modal",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "cards_per_view",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Cards Visible Per View (Desktop)",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Videos"
+    }
+  ]
+}
+{% endschema %}

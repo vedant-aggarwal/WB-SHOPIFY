@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "main": {
+      "type": "dresses-cat"
+    }
+  },
+  "order": ["main"]
+}

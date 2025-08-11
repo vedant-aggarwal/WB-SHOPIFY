@@ -1,0 +1,190 @@
+{% comment %}
+  Suits category page showing subcategories
+{% endcomment %}
+
+<div class="category-display">
+  <div class="category-display__container">
+    <div class="category-display__header">
+      <h1 class="category-display__title">Fancy Suits Collection Shop Now</h1>
+      <p class="category-display__subtitle">
+        Explore our suits subcategories below
+      </p>
+    </div>
+    
+    <div class="category-display__grid">
+      {% assign subcategories = 'Party Wear Suits,Casual Suits,Woollen Suits' | split: ',' %}
+      
+      {% for subcategory in subcategories %}
+        {% assign subcategory_handle = subcategory | handleize %}
+        {% assign search_url = routes.search_url | append: '?q=' | append: subcategory_handle %}
+        
+        <a href="{{ search_url }}" class="category-display__card">
+          <div class="category-display__card-icon">
+            {{ subcategory | slice: 0, 2 | upcase }}
+          </div>
+          <h2 class="category-display__card-title">{{ subcategory }}</h2>
+          <p class="category-display__card-description">
+            Shop our curated collection of {{ subcategory | downcase }}
+          </p>
+        </a>
+      {% endfor %}
+    </div>
+    
+    <div class="category-display__back-link">
+      <a href="{{ routes.root_url }}" class="category-display__back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M19 12H5m7-7-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to Home
+      </a>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.category-display {
+  padding: 2rem 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.category-display__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.category-display__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.category-display__title {
+  color: #8B4513;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.category-display__subtitle {
+  color: #A0522D;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.category-display__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.category-display__card {
+  background: white;
+  border: 2px solid #8B4513;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  text-decoration: none;
+  color: #8B4513;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 200px;
+  justify-content: center;
+}
+
+.category-display__card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15);
+  color: #A0522D;
+  border-color: #A0522D;
+}
+
+.category-display__card-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #8B4513, #A0522D);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.category-display__card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+.category-display__card-description {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.category-display__back-link {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.category-display__back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #8B4513;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.category-display__back-btn:hover {
+  background: #A0522D;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .category-display {
+    padding: 1.5rem 0;
+  }
+  
+  .category-display__title {
+    font-size: 2rem;
+  }
+  
+  .category-display__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .category-display__card {
+    padding: 1.5rem;
+    min-height: 160px;
+  }
+  
+  .category-display__card-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Suits Cat",
+  "settings": []
+}
+{% endschema %}

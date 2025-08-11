@@ -1,0 +1,376 @@
+{% stylesheet %}
+.product-categories {
+  padding: 2rem 0 0 0;
+  overflow: hidden;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background-color: transparent;
+}
+
+.product-categories__container {
+  position: relative;
+  width: 100%;
+  padding: 0;
+}
+
+.product-categories__title {
+  color: #8B4513;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Swiper for categories */
+.categories-swiper {
+  position: relative;
+  overflow: visible;
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 0 1rem;
+}
+
+.categories-swiper .swiper-slide {
+  width: auto;
+}
+
+.product-categories__item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #8B4513;
+  width: 160px;
+  text-align: center;
+}
+
+.product-categories__rectangle {
+  width: 160px;
+  height: 280px;
+  border-radius: 8px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+  overflow: hidden;
+  border: 2px solid #8B4513;
+}
+
+.product-categories__rectangle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-categories__placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #F5F5DC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #8B4513;
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem;
+}
+
+.product-categories__label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+  max-width: 150px;
+  word-wrap: break-word;
+  line-height: 1.2;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .product-categories {
+    padding: 1.5rem 0;
+  }
+  
+  .product-categories__title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .product-categories__item {
+    width: 120px;
+  }
+  
+  .product-categories__rectangle {
+    width: 120px;
+    height: 200px;
+  }
+  
+  .product-categories__placeholder {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+  
+  .product-categories__label {
+    font-size: 0.8rem;
+    max-width: 110px;
+  }
+  
+  .product-categories__track {
+    gap: 0.8rem;
+  }
+}
+
+/* Desktop enhancements */
+@media (min-width: 769px) {
+  .product-categories__track {
+    gap: 1.5rem;
+  }
+  
+  .product-categories__item {
+    width: 180px;
+  }
+  
+  .product-categories__rectangle {
+    width: 180px;
+    height: 320px;
+  }
+  
+  .product-categories__placeholder {
+    font-size: 1.8rem;
+    padding: 1.5rem;
+  }
+  
+  .product-categories__label {
+    font-size: 1rem;
+    max-width: 170px;
+  }
+}
+{% endstylesheet %}
+
+<section class="product-categories">
+  <div class="product-categories__container">
+    {% if section.settings.title != blank %}
+      <h2 class="product-categories__title">{{ section.settings.title }}</h2>
+    {% endif %}
+    
+    <div class="swiper categories-swiper">
+      <div class="swiper-wrapper">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'category' %}
+              <div class="swiper-slide">
+                <a href="{{ block.settings.category_url | default: '#' }}" 
+                   class="product-categories__item"
+                   {% if block.settings.category_url == blank %}onclick="return false;"{% endif %}>
+                  <div class="product-categories__rectangle">
+                    {% if block.settings.category_image != blank %}
+                      <img src="{{ block.settings.category_image | image_url: width: 180 }}" 
+                           alt="{{ block.settings.category_name | default: 'Category' }}">
+                    {% else %}
+                      <div class="product-categories__placeholder">
+                        {{ block.settings.category_name | default: 'Cat' | slice: 0, 3 | upcase }}
+                      </div>
+                    {% endif %}
+                  </div>
+                  <span class="product-categories__label">
+                    {{ block.settings.category_name | default: 'Category' }}
+                  </span>
+                </a>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% comment %} Default 7 main categories when no blocks are added {% endcomment %}
+          {% assign default_categories = 'Sarees,Lehengas,Dresses,Suits,Accessories,Mens Wear,Mens Accessories' | split: ',' %}
+          {% assign category_handles = 'sarees,lehengas,dresses,suits,accessories,mens,mens-accessories' | split: ',' %}
+          {% for category in default_categories %}
+            <div class="swiper-slide">
+              <a href="/pages/categories-{{ category_handles[forloop.index0] }}" class="product-categories__item">
+                <div class="product-categories__rectangle">
+                  <div class="product-categories__placeholder">
+                    {{ category | slice: 0, 3 | upcase }}
+                  </div>
+                </div>
+                <span class="product-categories__label">{{ category }}</span>
+              </a>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Swiper JS CDN for categories (if not already loaded) -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if Swiper is loaded, if not load it
+  if (typeof Swiper === 'undefined') {
+    const swiperCSS = document.createElement('link');
+    swiperCSS.rel = 'stylesheet';
+    swiperCSS.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+    document.head.appendChild(swiperCSS);
+    
+    const swiperJS = document.createElement('script');
+    swiperJS.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+    swiperJS.onload = initCategoriesSwiper;
+    document.head.appendChild(swiperJS);
+  } else {
+    initCategoriesSwiper();
+  }
+  
+  function initCategoriesSwiper() {
+    const categoriesSwiper = new Swiper('.categories-swiper', {
+      // Swiper options for categories
+      slidesPerView: 'auto',
+      spaceBetween: 16,
+      loop: true,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      speed: 800,
+      grabCursor: true,
+      
+      // Responsive breakpoints
+      breakpoints: {
+        320: {
+          slidesPerView: 'auto',
+          spaceBetween: 12,
+        },
+        768: {
+          slidesPerView: 'auto', 
+          spaceBetween: 16,
+        },
+        1024: {
+          slidesPerView: 'auto',
+          spaceBetween: 20,
+        },
+      },
+      
+      // Touch settings
+      touchRatio: 1,
+      touchAngle: 45,
+      
+      // Keyboard navigation
+      keyboard: {
+        enabled: true,
+        onlyInViewport: true,
+      },
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Product Categories",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "header",
+      "content": "Instructions"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add category blocks below. Each category can have an image and will link to a collection or page. If no blocks are added, default categories will be shown."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_name",
+          "label": "Category Name",
+          "default": "Category"
+        },
+        {
+          "type": "image_picker",
+          "id": "category_image",
+          "label": "Category Image",
+          "info": "Square image recommended (1:1 aspect ratio)"
+        },
+        {
+          "type": "url",
+          "id": "category_url",
+          "label": "Category Link",
+          "info": "Link to collection or page"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Categories",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Sarees",
+            "category_url": "/pages/categories-sarees"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Lehengas",
+            "category_url": "/pages/categories-lehengas"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Dresses",
+            "category_url": "/pages/categories-dresses"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Suits",
+            "category_url": "/pages/categories-suits"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Accessories",
+            "category_url": "/pages/categories-accessories"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Mens Wear",
+            "category_url": "/pages/categories-mens"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Mens Accessories",
+            "category_url": "/pages/categories-mens-accessories"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

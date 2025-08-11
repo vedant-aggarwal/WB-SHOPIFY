@@ -1,0 +1,153 @@
+<div class="announcement-bar full-width">
+  <div class="announcement-bar__content">
+    <div class="announcement-bar__slider" id="announcement-slider">
+      {% if section.settings.announcement_text_1 != blank %}
+        <p class="announcement-bar__text active">{{ section.settings.announcement_text_1 }}</p>
+      {% endif %}
+      {% if section.settings.announcement_text_2 != blank %}
+        <p class="announcement-bar__text">{{ section.settings.announcement_text_2 }}</p>
+      {% endif %}
+      {% if section.settings.announcement_text_3 != blank %}
+        <p class="announcement-bar__text">{{ section.settings.announcement_text_3 }}</p>
+      {% endif %}
+      {% if section.settings.announcement_text_4 != blank %}
+        <p class="announcement-bar__text">{{ section.settings.announcement_text_4 }}</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .announcement-bar {
+    background-color: #A0522D;
+    color: #FFFFFF;
+    padding: 0.6rem 0;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 400;
+    position: relative;
+    z-index: 100;
+    overflow: hidden;
+  }
+  
+  .announcement-bar__content {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 var(--page-margin);
+  }
+  
+  .announcement-bar__slider {
+    position: relative;
+    height: 1.2rem;
+    overflow: hidden;
+  }
+  
+  .announcement-bar__text {
+    margin: 0;
+    line-height: 1.2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.5s ease-in-out;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  
+  .announcement-bar__text.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .announcement-bar__text.exiting {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  
+  .announcement-bar a {
+    color: inherit;
+    text-decoration: underline;
+  }
+  
+  .announcement-bar a:hover {
+    text-decoration: none;
+  }
+  
+  @media (max-width: 768px) {
+    .announcement-bar__text {
+      font-size: 0.8rem;
+    }
+  }
+{% endstylesheet %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.getElementById('announcement-slider');
+    const texts = slider.querySelectorAll('.announcement-bar__text');
+    
+    if (texts.length <= 1) return; // Don't animate if only one message
+    
+    let currentIndex = 0;
+    
+    function showNext() {
+      // Mark current as exiting
+      texts[currentIndex].classList.add('exiting');
+      texts[currentIndex].classList.remove('active');
+      
+      // Move to next index
+      currentIndex = (currentIndex + 1) % texts.length;
+      
+      // Show next message after a short delay
+      setTimeout(() => {
+        // Remove exiting class from all texts
+        texts.forEach(text => text.classList.remove('exiting'));
+        
+        // Show next message
+        texts[currentIndex].classList.add('active');
+      }, 250);
+    }
+    
+    // Start the rotation
+    setInterval(showNext, 4000); // Change every 4 seconds
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text_1",
+      "label": "Announcement Text 1",
+      "default": "Free shipping on orders of $200 or more"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text_2",
+      "label": "Announcement Text 2",
+      "default": "New arrivals just landed - Shop now"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text_3",
+      "label": "Announcement Text 3",
+      "default": "Sign up for our newsletter and get 10% off"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text_4",
+      "label": "Announcement Text 4",
+      "default": "Limited time offer - 30% off selected items"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar"
+    }
+  ]
+}
+{% endschema %}

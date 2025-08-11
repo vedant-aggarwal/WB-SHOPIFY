@@ -1,0 +1,2084 @@
+<header class="header full-width" id="main-header">
+  <div class="header__container">
+    <div class="header__left-icons">
+      <button class="header__hamburger" id="menu-button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <button class="header__search" id="search-button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+
+    <h1 class="header__title">
+      <a href="{{ routes.root_url }}">
+        <span class="header__title--full">{{ shop.name }}</span>
+        <span class="header__title--short">WB</span>
+      </a>
+    </h1>
+
+    <div class="header__menu">
+      {% for link in section.settings.menu.links %}
+        {{ link.title | link_to: link.url }}
+      {% endfor %}
+    </div>
+
+    <div class="header__icons">
+      <a href="{{ routes.account_url }}" class="header__account">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </a>
+
+      <a href="{{ routes.cart_url }}" class="header__cart">
+        {% if cart.item_count > 0 %}
+          <sup>{{ cart.item_count }}</sup>
+        {% endif %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
+          <circle cx="8" cy="21" r="1"/>
+          <circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+  
+  <!-- Search Expansion for Main Header -->
+  <div class="header__search-expansion" id="main-header-search">
+    <div class="header__container">
+      <div class="search-expansion__content">
+        <div class="search-expansion__input-container">
+          <input 
+            type="text" 
+            id="main-search-input" 
+            class="search-expansion__input"
+            placeholder="Search our products"
+            autocomplete="off"
+          >
+          <button class="search-expansion__close" id="main-search-close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <div class="search-expansion__suggestions" id="main-search-suggestions"></div>
+        </div>
+        
+        <div class="search-expansion__results">
+          <div class="search-expansion__initial" id="main-search-initial">
+            <div class="search-expansion__featured">
+              <div class="search-expansion__products-grid">
+                {% assign featured_products_collection = section.settings.featured_collection | default: 'featured' %}
+                {% assign featured_products_source = collections[featured_products_collection].products | default: collections.all.products %}
+                {% assign featured_products_limit = section.settings.featured_products_count | default: 6 %}
+                {% for product in featured_products_source limit: featured_products_limit %}
+                  <a href="{{ product.url }}" class="search-expansion__product-card">
+                    <div class="search-expansion__product-image">
+                      {% if product.tags contains 'best-seller' or product.tags contains 'bestseller' %}
+                        <span class="search-expansion__product-badge search-expansion__product-badge--bestseller">BEST SELLER</span>
+                      {% elsif product.tags contains 'new' %}
+                        <span class="search-expansion__product-badge search-expansion__product-badge--new">NEW</span>
+                      {% endif %}
+                      {% if product.featured_media %}
+                        <div class="image-skeleton"></div>
+                        <img data-lazy src="" data-src="{{ product.featured_media | image_url: width: 300 }}" alt="{{ product.title }}" width="300" height="300" style="opacity: 0; filter: blur(10px);">
+                      {% else %}
+                        <div class="search-expansion__product-placeholder">No Image</div>
+                      {% endif %}
+                      <button class="search-expansion__product-heart" type="button" aria-label="Add to wishlist" onclick="event.preventDefault(); event.stopPropagation();">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="search-expansion__product-info">
+                      <h3 class="search-expansion__product-title">{{ product.title }}</h3>
+                      <div class="search-expansion__product-pricing">
+                        {% if product.compare_at_price and product.compare_at_price > product.price %}
+                          <span class="search-expansion__product-price-old">₹{{ product.compare_at_price | money_without_currency }}</span>
+                        {% endif %}
+                        <span class="search-expansion__product-price">₹{{ product.price | money_without_currency }}</span>
+                      </div>
+                      <button class="search-expansion__add-to-cart-btn" 
+                              onclick="event.preventDefault(); event.stopPropagation(); addToCart('{{ product.handle }}', '{{ product.title | escape }}', Math.round({{ product.price }}))">
+                        Add to Cart
+                      </button>
+                    </div>
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          
+          <div class="search-expansion__search-results" id="main-search-results" style="display: none;">
+            <div class="search-expansion__results-container">
+              <div class="search-expansion__results-grid" id="main-search-results-grid">
+                <!-- Search results will be populated here -->
+              </div>
+              <div class="search-expansion__see-all" id="main-search-see-all" style="display: none;">
+                <button class="search-expansion__see-all-btn" onclick="window.location.href='/search?q=' + encodeURIComponent(document.getElementById('main-search-input').value)">
+                  See All Results
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="header-sticky" id="sticky-header">
+  <div class="header__container">
+    <div class="header__left-icons">
+      <button class="header__hamburger" id="sticky-menu-button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <button class="header__search" id="sticky-search-button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+
+    <h1 class="header__title">
+      <a href="{{ routes.root_url }}">
+        <span class="header__title--short">WB</span>
+      </a>
+    </h1>
+
+    <div class="header__menu">
+      {% for link in section.settings.menu.links %}
+        {{ link.title | link_to: link.url }}
+      {% endfor %}
+    </div>
+
+    <div class="header__icons">
+      <a href="{{ routes.account_url }}" class="header__account">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </a>
+
+      <a href="{{ routes.cart_url }}" class="header__cart">
+        {% if cart.item_count > 0 %}
+          <sup>{{ cart.item_count }}</sup>
+        {% endif %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
+          <circle cx="8" cy="21" r="1"/>
+          <circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+  
+  <!-- Search Expansion for Sticky Header -->
+  <div class="header__search-expansion" id="sticky-header-search">
+    <div class="header__container">
+      <div class="search-expansion__content">
+        <div class="search-expansion__input-container">
+          <input 
+            type="text" 
+            id="sticky-search-input" 
+            class="search-expansion__input"
+            placeholder="Search our products"
+            autocomplete="off"
+          >
+          <button class="search-expansion__close" id="sticky-search-close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <div class="search-expansion__suggestions" id="sticky-search-suggestions"></div>
+        </div>
+        
+        <div class="search-expansion__results">
+          <div class="search-expansion__initial" id="sticky-search-initial">
+            <div class="search-expansion__featured">
+              <div class="search-expansion__products-grid">
+                {% for product in featured_products_source limit: featured_products_limit %}
+                  <a href="{{ product.url }}" class="search-expansion__product-card">
+                    <div class="search-expansion__product-image">
+                      {% if product.tags contains 'best-seller' or product.tags contains 'bestseller' %}
+                        <span class="search-expansion__product-badge search-expansion__product-badge--bestseller">BEST SELLER</span>
+                      {% elsif product.tags contains 'new' %}
+                        <span class="search-expansion__product-badge search-expansion__product-badge--new">NEW</span>
+                      {% endif %}
+                      {% if product.featured_media %}
+                        <div class="image-skeleton"></div>
+                        <img data-lazy src="" data-src="{{ product.featured_media | image_url: width: 300 }}" alt="{{ product.title }}" width="300" height="300" style="opacity: 0; filter: blur(10px);">
+                      {% else %}
+                        <div class="search-expansion__product-placeholder">No Image</div>
+                      {% endif %}
+                      <button class="search-expansion__product-heart" type="button" aria-label="Add to wishlist" onclick="event.preventDefault(); event.stopPropagation();">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="search-expansion__product-info">
+                      <h3 class="search-expansion__product-title">{{ product.title }}</h3>
+                      <div class="search-expansion__product-pricing">
+                        {% if product.compare_at_price and product.compare_at_price > product.price %}
+                          <span class="search-expansion__product-price-old">₹{{ product.compare_at_price | money_without_currency }}</span>
+                        {% endif %}
+                        <span class="search-expansion__product-price">₹{{ product.price | money_without_currency }}</span>
+                      </div>
+                      <button class="search-expansion__add-to-cart-btn" 
+                              onclick="event.preventDefault(); event.stopPropagation(); addToCart('{{ product.handle }}', '{{ product.title | escape }}', Math.round({{ product.price }}))">
+                        Add to Cart
+                      </button>
+                    </div>
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          
+          <div class="search-expansion__search-results" id="sticky-search-results" style="display: none;">
+            <div class="search-expansion__results-container">
+              <div class="search-expansion__results-grid" id="sticky-search-results-grid">
+                <!-- Search results will be populated here -->
+              </div>
+              <div class="search-expansion__see-all" id="sticky-search-see-all" style="display: none;">
+                <button class="search-expansion__see-all-btn" onclick="window.location.href='/search?q=' + encodeURIComponent(document.getElementById('sticky-search-input').value)">
+                  See All Results
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Side Menu -->
+<div id="side-menu" class="side-menu">
+  <div class="side-menu__overlay"></div>
+  <div class="side-menu__content">
+    <div class="side-menu__header">
+      <button class="side-menu__close" id="side-menu-close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    
+    <nav class="side-menu__nav">
+      <!-- SHOP Section -->
+      <div class="side-menu__item side-menu__item--expandable">
+        <button class="side-menu__link side-menu__expandable-btn" data-toggle="shop-submenu">
+          SHOP
+          <svg class="side-menu__plus" width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="side-menu__submenu" id="shop-submenu">
+          {% for link in section.settings.menu.links %}
+            {% if link.title contains 'Shop' or link.title contains 'Collection' or link.title contains 'Product' %}
+              <a href="{{ link.url }}" class="side-menu__sublink">{{ link.title }}</a>
+            {% endif %}
+          {% endfor %}
+          {% if collections.all.size > 0 %}
+            {% for collection in collections limit: 6 %}
+              <a href="{{ collection.url }}" class="side-menu__sublink">{{ collection.title }}</a>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- NEW ARRIVALS Section -->
+      <div class="side-menu__item side-menu__item--expandable">
+        <button class="side-menu__link side-menu__expandable-btn" data-toggle="new-arrivals-submenu">
+          NEW ARRIVALS
+          <svg class="side-menu__plus" width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="side-menu__submenu" id="new-arrivals-submenu">
+          {% assign new_collection = collections['new-arrivals'] %}
+          {% if new_collection %}
+            <a href="{{ new_collection.url }}" class="side-menu__sublink">View All New Arrivals</a>
+          {% endif %}
+          {% for product in collections['new-arrivals'].products limit: 5 %}
+            <a href="{{ product.url }}" class="side-menu__sublink">{{ product.title }}</a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- FINAL FEW -->
+      <div class="side-menu__item">
+        <a href="/collections/final-few" class="side-menu__link">
+          FINAL FEW
+        </a>
+      </div>
+
+      <!-- SUSTAINABILITY -->
+      <div class="side-menu__item">
+        <a href="/pages/sustainability" class="side-menu__link">
+          SUSTAINABILITY
+        </a>
+      </div>
+
+      <!-- STORES -->
+      <div class="side-menu__item">
+        <a href="/pages/stores" class="side-menu__link">
+          STORES
+        </a>
+      </div>
+
+      <!-- Promotional Content -->
+      <div class="side-menu__promo-section">
+        <!-- Slingbacks Promo -->
+        <div class="side-menu__promo-item">
+          <div class="side-menu__promo-image">
+            {% if section.settings.promo_image_1 %}
+              <img src="{{ section.settings.promo_image_1 | image_url }}" alt="Slingbacks Collection" width="300" height="200" loading="lazy">
+            {% else %}
+              <div class="side-menu__promo-placeholder">Image</div>
+            {% endif %}
+          </div>
+          <div class="side-menu__promo-content">
+            <h3 class="side-menu__promo-title">NEW & EXCLUSIVE: SLINGBACKS</h3>
+            <p class="side-menu__promo-subtitle">Discover our latest collection</p>
+            <a href="/collections/slingbacks" class="side-menu__promo-link">Shop Now</a>
+          </div>
+        </div>
+
+        <!-- Pick Your Penny Promo -->
+        <div class="side-menu__promo-item">
+          <div class="side-menu__promo-image">
+            {% if section.settings.promo_image_2 %}
+              <img src="{{ section.settings.promo_image_2 | image_url }}" alt="Pick Your Penny Collection" width="300" height="200" loading="lazy">
+            {% else %}
+              <div class="side-menu__promo-placeholder">Image</div>
+            {% endif %}
+          </div>
+          <div class="side-menu__promo-content">
+            <h3 class="side-menu__promo-title">NEW! PICK YOUR PENNY</h3>
+            <p class="side-menu__promo-subtitle">Premium penny loafers</p>
+            <a href="/collections/penny-loafers" class="side-menu__promo-link">Explore</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Cart Notification -->
+<div id="cart-notification" class="cart-notification">
+  <div class="cart-notification__header">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+    Item added to cart
+  </div>
+  <div class="cart-notification__content">
+    <div class="cart-notification__item" id="cart-notification-item"></div>
+    <div class="cart-notification__totals">
+      <span id="cart-notification-count"></span><br>
+      <span class="cart-notification__total-change" id="cart-notification-total"></span>
+    </div>
+  </div>
+  <div class="cart-notification__buttons">
+    <button class="cart-notification__btn cart-notification__btn--secondary" onclick="closeCartNotification()">
+      Continue Shopping
+    </button>
+    <button class="cart-notification__btn cart-notification__btn--primary" onclick="window.location.href='/cart'">
+      View Cart
+    </button>
+  </div>
+</div>
+
+{% stylesheet %}
+  .header {
+    height: 4rem;
+    background-color: #FAF0E6;
+    position: relative;
+    z-index: 50;
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .header__container {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 var(--page-margin);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .header__left-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .header__hamburger {
+    display: flex;
+    align-items: center;
+    color: #A0522D;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+  
+  .header__hamburger:hover {
+    background-color: rgba(160, 82, 45, 0.1);
+  }
+  
+  .header__hamburger svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .header__search {
+    display: flex;
+    align-items: center;
+    color: #A0522D;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    margin-left: 0.5rem;
+  }
+  
+  .header__search:hover {
+    background-color: rgba(160, 82, 45, 0.1);
+  }
+  
+  .header__search svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .header__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .header__title a {
+    color: #A0522D;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  
+  .header__title--short {
+    display: none;
+  }
+  
+  .header__menu {
+    display: none;
+  }
+  
+  .header__icons {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .header__icons a {
+    position: relative;
+    text-decoration: none;
+    color: #A0522D;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+  
+  .header__icons a:hover {
+    background-color: rgba(160, 82, 45, 0.1);
+  }
+  
+  .header__icons svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .header__cart sup {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    background-color: #A0522D;
+    color: #FFFFFF;
+    border-radius: 50%;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  
+  /* Sticky Header */
+  .header-sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    background-color: #FAF0E6;
+    z-index: 100;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-sticky.show {
+    transform: translateY(0);
+  }
+  
+  .header-sticky .header__container {
+    height: 100%;
+  }
+  
+  .header-sticky .header__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+  }
+  
+  .header-sticky .header__title--short {
+    display: inline;
+  }
+  
+  .header-sticky .header__title--full {
+    display: none;
+  }
+  
+  /* Hide main header when scrolling */
+  .header.hide {
+    transform: translateY(-100%);
+  }
+  
+  /* Search Expansion Styles */
+  .header__search-expansion {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #FAF0E6;
+    border-top: 1px solid rgba(160, 82, 45, 0.2);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    z-index: 200;
+  }
+  
+  .header__search-expansion.active {
+    max-height: 75vh;
+  }
+  
+  .search-expansion__content {
+    padding: 1.5rem 0;
+    max-width: 100%;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .search-expansion__input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .search-expansion__input {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    border: 2px solid #A0522D;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    background-color: transparent;
+    color: #A0522D;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .search-expansion__input::placeholder {
+    color: #A0522D;
+    opacity: 0.7;
+  }
+  
+  .search-expansion__input:focus {
+    border-color: #8B4513;
+  }
+  
+  .search-expansion__close {
+    position: absolute;
+    right: 0.8rem;
+    background: none;
+    border: none;
+    color: #A0522D;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+  
+  .search-expansion__close svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  
+  .search-expansion__close:hover {
+    background-color: rgba(160, 82, 45, 0.1);
+  }
+  
+  .search-expansion__suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 300;
+    display: none;
+  }
+  
+  .search-expansion__suggestions.active {
+    display: block;
+  }
+  
+  .search-expansion__suggestion {
+    padding: 0.75rem 1rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .search-expansion__suggestion:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .search-expansion__suggestion:first-child {
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .search-expansion__suggestion:last-child {
+    border-radius: 0 0 12px 12px;
+  }
+  
+  .search-expansion__featured {
+    text-align: left;
+    max-height: 65vh;
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+  
+  .search-expansion__featured::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .search-expansion__featured::-webkit-scrollbar-track {
+    background: rgba(160, 82, 45, 0.1);
+    border-radius: 3px;
+  }
+  
+  .search-expansion__featured::-webkit-scrollbar-thumb {
+    background: rgba(160, 82, 45, 0.3);
+    border-radius: 3px;
+  }
+  
+  .search-expansion__featured::-webkit-scrollbar-thumb:hover {
+    background: rgba(160, 82, 45, 0.5);
+  }
+  
+  .search-expansion__products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 0;
+    width: 100%;
+  }
+  
+  .search-expansion__product-card {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.8rem;
+    border: 1px solid rgba(160, 82, 45, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .search-expansion__product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-expansion__product-image {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .search-expansion__product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+  
+  .search-expansion__product-image img[data-lazy] {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  
+  .search-expansion__product-image img.loaded {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  
+  .search-expansion__product-image .image-skeleton {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 6px;
+  }
+  
+  @keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  /* Cart Notification */
+  .cart-notification {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 3px solid #A0522D;
+    padding: 1rem;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    width: 100%;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    visibility: hidden;
+  }
+  
+  .cart-notification.show {
+    transform: translateY(0);
+    visibility: visible;
+  }
+  
+  .cart-notification.hide-on-scroll {
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .cart-notification__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    color: #A0522D;
+    font-weight: 600;
+  }
+  
+  .cart-notification__header svg {
+    margin-right: 0.5rem;
+  }
+  
+  .cart-notification__content {
+    margin-bottom: 0.75rem;
+  }
+  
+  .cart-notification__item {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    color: #333;
+  }
+  
+  .cart-notification__totals {
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+    color: #666;
+  }
+  
+  .cart-notification__total-change {
+    color: #A0522D;
+    font-weight: 600;
+  }
+  
+  .cart-notification__buttons {
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  .cart-notification__btn {
+    flex: 1;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    transition: all 0.2s ease;
+  }
+  
+  .cart-notification__btn--primary {
+    background-color: #A0522D;
+    color: white;
+  }
+  
+  .cart-notification__btn--primary:hover {
+    background-color: #8B4513;
+  }
+  
+  .cart-notification__btn--secondary {
+    background-color: transparent;
+    color: #A0522D;
+    border: 1px solid #A0522D;
+  }
+  
+  .cart-notification__btn--secondary:hover {
+    background-color: #A0522D;
+    color: white;
+  }
+  
+  /* Side Menu */
+  .side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  
+  .side-menu.open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+  
+  .side-menu__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .side-menu.open .side-menu__overlay {
+    opacity: 1;
+  }
+  
+  .side-menu__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 320px;
+    max-width: 85vw;
+    height: 100%;
+    background-color: #FAF0E6;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .side-menu.open .side-menu__content {
+    transform: translateX(0);
+  }
+  
+  .side-menu__header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(160, 82, 45, 0.2);
+  }
+  
+  .side-menu__close {
+    background: none;
+    border: none;
+    color: #A0522D;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+  
+  .side-menu__close:hover {
+    background-color: rgba(160, 82, 45, 0.1);
+  }
+  
+  .side-menu__nav {
+    padding: 1rem 0;
+  }
+  
+  .side-menu__item {
+    border-bottom: 1px solid rgba(160, 82, 45, 0.1);
+  }
+  
+  .side-menu__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    color: #A0522D;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: background-color 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+  }
+  
+  .side-menu__link:hover {
+    background-color: rgba(160, 82, 45, 0.05);
+  }
+  
+  .side-menu__expandable-btn {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .side-menu__plus {
+    color: #A0522D;
+    opacity: 0.6;
+    transition: transform 0.3s ease;
+  }
+  
+  .side-menu__item--expandable.expanded .side-menu__plus {
+    transform: rotate(45deg);
+  }
+  
+  .side-menu__arrow {
+    color: #A0522D;
+    opacity: 0.6;
+  }
+  
+  .side-menu__submenu {
+    background-color: rgba(160, 82, 45, 0.05);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+  
+  .side-menu__item--expandable.expanded .side-menu__submenu {
+    max-height: 300px;
+  }
+  
+  .side-menu__sublink {
+    display: block;
+    padding: 0.75rem 2rem;
+    color: #8B4513;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .side-menu__sublink:hover {
+    background-color: rgba(160, 82, 45, 0.1);
+  }
+  
+  /* Promotional section styles */
+  .side-menu__promo-section {
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+  }
+  
+  .side-menu__promo-item {
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .side-menu__promo-image {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .side-menu__promo-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .side-menu__promo-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 0.9rem;
+  }
+  
+  .side-menu__promo-content {
+    padding: 1rem;
+    background-color: white;
+  }
+  
+  .side-menu__promo-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .side-menu__promo-subtitle {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 0.75rem;
+  }
+  
+  .side-menu__promo-link {
+    display: inline-block;
+    color: #A0522D;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #A0522D;
+    transition: color 0.2s ease;
+  }
+  
+  .side-menu__promo-link:hover {
+    color: #8B4513;
+    border-color: #8B4513;
+  }
+  
+  .search-expansion__product-badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    z-index: 2;
+  }
+  
+  .search-expansion__product-badge--bestseller {
+    background-color: #000000;
+  }
+  
+  .search-expansion__product-badge--new {
+    background-color: #228B22;
+  }
+  
+  .search-expansion__product-heart {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #666;
+    z-index: 2;
+  }
+  
+  .search-expansion__product-heart:hover {
+    background: rgba(255, 255, 255, 1);
+    color: #A0522D;
+    transform: scale(1.1);
+  }
+  
+  .search-expansion__product-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 0.8rem;
+  }
+  
+  .search-expansion__product-info {
+    flex: 1;
+    padding: 0;
+    text-align: center;
+  }
+  
+  .search-expansion__product-title {
+    font-size: 0.85rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  
+  .search-expansion__product-pricing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .search-expansion__product-price-old {
+    color: #999;
+    font-size: 0.75rem;
+    text-decoration: line-through;
+    font-weight: 400;
+  }
+  
+  .search-expansion__product-price {
+    color: #A0522D;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  
+  .search-expansion__add-to-cart-btn {
+    background-color: #A0522D;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: 100%;
+  }
+  
+  .search-expansion__add-to-cart-btn:hover {
+    background-color: #8B4513;
+  }
+  
+  .search-expansion__results-container {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+  
+  .search-expansion__results-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .search-expansion__results-container::-webkit-scrollbar-track {
+    background: rgba(160, 82, 45, 0.1);
+    border-radius: 3px;
+  }
+  
+  .search-expansion__results-container::-webkit-scrollbar-thumb {
+    background: rgba(160, 82, 45, 0.3);
+    border-radius: 3px;
+  }
+  
+  .search-expansion__results-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(160, 82, 45, 0.5);
+  }
+  
+  .search-expansion__results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .search-expansion__see-all {
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid rgba(160, 82, 45, 0.1);
+    margin-top: 1rem;
+  }
+  
+  .search-expansion__see-all-btn {
+    background-color: #A0522D;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+  }
+  
+  .search-expansion__see-all-btn:hover {
+    background-color: #8B4513;
+  }
+  
+  @media (min-width: 768px) {
+    .header__hamburger {
+      display: flex;
+    }
+    
+    .header__search {
+      display: flex;
+    }
+    
+    .header__title {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .header__menu {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .header__menu a {
+      color: #A0522D;
+      text-decoration: none;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s ease;
+    }
+    
+    .header__menu a:hover {
+      color: #8B4513;
+    }
+    
+    .header-sticky .header__hamburger {
+      display: flex;
+    }
+    
+    .header-sticky .header__search {
+      display: flex;
+    }
+    
+    .header-sticky .header__title {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .header-sticky .header__menu {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .search-expansion__content {
+      max-width: 100%;
+      padding: 2rem;
+    }
+    
+    .search-expansion__products-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .search-expansion__results-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .search-expansion__results-container {
+      max-height: 65vh;
+    }
+    
+    .search-expansion__featured {
+      max-height: 70vh;
+    }
+    
+    .search-expansion__product-image {
+      height: 200px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .search-expansion__content {
+      padding: 1.5rem;
+      max-width: 100%;
+    }
+    
+    .search-expansion__input-container {
+      max-width: 100%;
+    }
+    
+    .search-expansion__products-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    
+    .search-expansion__results-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    
+    .search-expansion__results-container {
+      max-height: 55vh;
+    }
+    
+    .search-expansion__featured {
+      max-height: 60vh;
+    }
+    
+    .search-expansion__product-card {
+      padding: 0.8rem;
+    }
+    
+    .search-expansion__product-image {
+      height: 120px;
+    }
+    
+    .search-expansion__product-title {
+      font-size: 0.75rem;
+    }
+    
+    .search-expansion__product-price {
+      font-size: 0.8rem;
+    }
+    
+    .search-expansion__product-price-old {
+      font-size: 0.7rem;
+    }
+    
+    .search-expansion__add-to-cart-btn {
+      font-size: 0.75rem;
+      padding: 0.5rem 0.75rem;
+    }
+    
+    .cart-notification {
+      padding: 0.75rem;
+    }
+    
+    .cart-notification__header {
+      margin-bottom: 0.5rem;
+    }
+    
+    .cart-notification__content {
+      margin-bottom: 0.5rem;
+    }
+  }
+{% endstylesheet %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mainHeader = document.getElementById('main-header');
+    const stickyHeader = document.getElementById('sticky-header');
+    let lastScrollY = window.scrollY;
+    let headerHeight = mainHeader.offsetHeight;
+    
+    function handleScroll() {
+      const currentScrollY = window.scrollY;
+      const notification = document.getElementById('cart-notification');
+      
+      // Hide main header when scrolling down
+      if (currentScrollY > lastScrollY && currentScrollY > headerHeight) {
+        mainHeader.classList.add('hide');
+        
+        // Hide cart notification when scrolling up
+        if (notification && notification.classList.contains('show') && !notification.classList.contains('hide-on-scroll')) {
+          notification.classList.add('hide-on-scroll');
+        }
+      } else if (currentScrollY < lastScrollY) {
+        mainHeader.classList.remove('hide');
+        
+        // Show cart notification when scrolling down (if it was visible before)
+        if (notification && notification.classList.contains('show') && notification.classList.contains('hide-on-scroll')) {
+          notification.classList.remove('hide-on-scroll');
+        }
+      }
+      
+      // Show sticky header when main header is completely out of view
+      if (currentScrollY > headerHeight * 2) {
+        stickyHeader.classList.add('show');
+      } else {
+        stickyHeader.classList.remove('show');
+      }
+      
+      lastScrollY = currentScrollY;
+    }
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initialize lazy loading on page load
+    initializeLazyLoading();
+    
+    // Side menu functionality
+    const menuButton = document.getElementById('menu-button');
+    const stickyMenuButton = document.getElementById('sticky-menu-button');
+    const sideMenu = document.getElementById('side-menu');
+    const sideMenuClose = document.getElementById('side-menu-close');
+    const sideMenuOverlay = document.querySelector('.side-menu__overlay');
+    
+    // Open side menu
+    function openSideMenu() {
+      sideMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    // Close side menu
+    function closeSideMenu() {
+      sideMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    
+    // Menu button event listeners
+    if (menuButton) {
+      menuButton.addEventListener('click', openSideMenu);
+    }
+    
+    if (stickyMenuButton) {
+      stickyMenuButton.addEventListener('click', openSideMenu);
+    }
+    
+    // Close button event listener
+    if (sideMenuClose) {
+      sideMenuClose.addEventListener('click', closeSideMenu);
+    }
+    
+    // Overlay click to close
+    if (sideMenuOverlay) {
+      sideMenuOverlay.addEventListener('click', closeSideMenu);
+    }
+    
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && sideMenu.classList.contains('open')) {
+        closeSideMenu();
+      }
+    });
+    
+    // Handle expandable menu items
+    const expandableButtons = document.querySelectorAll('.side-menu__expandable-btn');
+    expandableButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const parentItem = this.closest('.side-menu__item--expandable');
+        const isExpanded = parentItem.classList.contains('expanded');
+        
+        // Close all other expanded items
+        document.querySelectorAll('.side-menu__item--expandable.expanded').forEach(item => {
+          if (item !== parentItem) {
+            item.classList.remove('expanded');
+          }
+        });
+        
+        // Toggle current item
+        parentItem.classList.toggle('expanded', !isExpanded);
+      });
+    });
+    
+    // Universal cart functionality - intercept all add to cart forms
+    document.addEventListener('submit', async function(e) {
+      if (e.target.action && e.target.action.includes('/cart/add')) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formData = new FormData(form);
+        const variantId = formData.get('id');
+        const quantity = parseInt(formData.get('quantity')) || 1;
+        
+        // Get product title from the page or form
+        let productTitle = '';
+        const titleElement = document.querySelector('.product__title, [data-product-title], h1');
+        if (titleElement) {
+          productTitle = titleElement.textContent.trim();
+        } else {
+          productTitle = document.title.split(' - ')[0] || 'Product';
+        }
+        
+        // Get price from the page
+        let productPrice = 0;
+        const priceElement = document.querySelector('.product__price .price, [data-product-price], .price');
+        if (priceElement) {
+          const priceText = priceElement.textContent.replace(/[^\d]/g, '');
+          productPrice = parseInt(priceText) || 0;
+        }
+        
+        // Call our add to cart function
+        await addToCartFromForm(variantId, productTitle, productPrice, quantity);
+      }
+    });
+    
+    // Search expansion functionality
+    const mainSearchButton = document.getElementById('search-button');
+    const stickySearchButton = document.getElementById('sticky-search-button');
+    const mainSearchExpansion = document.getElementById('main-header-search');
+    const stickySearchExpansion = document.getElementById('sticky-header-search');
+    const mainSearchInput = document.getElementById('main-search-input');
+    const stickySearchInput = document.getElementById('sticky-search-input');
+    const mainSearchClose = document.getElementById('main-search-close');
+    const stickySearchClose = document.getElementById('sticky-search-close');
+    
+    // Open main header search
+    if (mainSearchButton) {
+      mainSearchButton.addEventListener('click', function() {
+        mainSearchExpansion.classList.add('active');
+        setTimeout(() => {
+          mainSearchInput.focus();
+        }, 300);
+      });
+    }
+    
+    // Open sticky header search
+    if (stickySearchButton) {
+      stickySearchButton.addEventListener('click', function() {
+        stickySearchExpansion.classList.add('active');
+        setTimeout(() => {
+          stickySearchInput.focus();
+        }, 300);
+      });
+    }
+    
+    // Close main header search
+    function closeMainSearch() {
+      mainSearchExpansion.classList.remove('active');
+      mainSearchInput.value = '';
+      document.getElementById('main-search-results').style.display = 'none';
+      document.getElementById('main-search-initial').style.display = 'block';
+    }
+    
+    // Close sticky header search
+    function closeStickySearch() {
+      stickySearchExpansion.classList.remove('active');
+      stickySearchInput.value = '';
+      document.getElementById('sticky-search-results').style.display = 'none';
+      document.getElementById('sticky-search-initial').style.display = 'block';
+    }
+    
+    // Close button handlers
+    if (mainSearchClose) {
+      mainSearchClose.addEventListener('click', closeMainSearch);
+    }
+    if (stickySearchClose) {
+      stickySearchClose.addEventListener('click', closeStickySearch);
+    }
+    
+    // Search functionality for main header
+    setupSearchFunctionality(mainSearchInput, 'main-search-initial', 'main-search-results', 'main-search-results-grid');
+    
+    // Search functionality for sticky header
+    setupSearchFunctionality(stickySearchInput, 'sticky-search-initial', 'sticky-search-results', 'sticky-search-results-grid');
+    
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (mainSearchExpansion.classList.contains('active')) {
+          closeMainSearch();
+        }
+        if (stickySearchExpansion.classList.contains('active')) {
+          closeStickySearch();
+        }
+      }
+    });
+    
+    // Close on click outside
+    document.addEventListener('click', function(e) {
+      // Check if main search is open and click is outside
+      if (mainSearchExpansion.classList.contains('active')) {
+        if (!mainSearchExpansion.contains(e.target) && !mainSearchButton.contains(e.target)) {
+          closeMainSearch();
+        }
+      }
+      
+      // Check if sticky search is open and click is outside
+      if (stickySearchExpansion.classList.contains('active')) {
+        if (!stickySearchExpansion.contains(e.target) && !stickySearchButton.contains(e.target)) {
+          closeStickySearch();
+        }
+      }
+    });
+    
+    // Search functionality setup
+    function setupSearchFunctionality(searchInput, initialId, resultsId, resultsGridId) {
+      let searchTimeout;
+      let suggestionsTimeout;
+      const suggestionsId = searchInput.id.replace('-input', '-suggestions');
+      const suggestionsElement = document.getElementById(suggestionsId);
+      
+      searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        
+        clearTimeout(searchTimeout);
+        clearTimeout(suggestionsTimeout);
+        
+        if (query.length === 0) {
+          document.getElementById(resultsId).style.display = 'none';
+          document.getElementById(initialId).style.display = 'block';
+          suggestionsElement.classList.remove('active');
+          return;
+        }
+        
+        // Show suggestions after 200ms
+        if (query.length >= 2) {
+          suggestionsTimeout = setTimeout(() => {
+            showSuggestions(query, suggestionsElement, searchInput, initialId, resultsId, resultsGridId);
+          }, 200);
+        }
+        
+        // Perform actual search after 300ms
+        if (query.length >= 1) {
+          searchTimeout = setTimeout(() => {
+            performSearch(query, initialId, resultsId, resultsGridId);
+            suggestionsElement.classList.remove('active');
+          }, 300);
+        }
+      });
+      
+      // Hide suggestions when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !suggestionsElement.contains(e.target)) {
+          suggestionsElement.classList.remove('active');
+        }
+      });
+    }
+    
+    function showSuggestions(query, suggestionsElement, searchInput, initialId, resultsId, resultsGridId) {
+      fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=query&resources[limit]=5`)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Suggestions API response:', data);
+          const queries = (data.resources && data.resources.results && data.resources.results.queries) ? data.resources.results.queries : [];
+          
+          if (queries.length > 0) {
+            const suggestionsHTML = queries.map(suggestion => 
+              `<div class="search-expansion__suggestion" data-query="${suggestion.text}">${suggestion.text}</div>`
+            ).join('');
+            
+            suggestionsElement.innerHTML = suggestionsHTML;
+            suggestionsElement.classList.add('active');
+            
+            // Add click handlers for suggestions
+            suggestionsElement.querySelectorAll('.search-expansion__suggestion').forEach(suggestion => {
+              suggestion.addEventListener('click', function() {
+                const selectedQuery = this.dataset.query;
+                searchInput.value = selectedQuery;
+                suggestionsElement.classList.remove('active');
+                performSearch(selectedQuery, initialId, resultsId, resultsGridId);
+              });
+            });
+          } else {
+            suggestionsElement.classList.remove('active');
+          }
+        })
+        .catch(error => {
+          console.error('Suggestions error:', error);
+          suggestionsElement.classList.remove('active');
+        });
+    }
+    
+    function performSearch(query, initialId, resultsId, resultsGridId) {
+      document.getElementById(initialId).style.display = 'none';
+      document.getElementById(resultsId).style.display = 'block';
+      
+      const resultsGrid = document.getElementById(resultsGridId);
+      resultsGrid.innerHTML = '<div style="text-align: center; color: #A0522D; padding: 2rem;">Searching...</div>';
+      
+      fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product&resources[limit]=8&resources[options][unavailable_products]=last`)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Search API response:', data);
+          const products = (data.resources && data.resources.results && data.resources.results.products) ? data.resources.results.products : [];
+          displaySearchResults(products, resultsGridId);
+        })
+        .catch(error => {
+          console.error('Search error:', error);
+          resultsGrid.innerHTML = '<div style="text-align: center; color: #A0522D; padding: 2rem;">Search failed. Please try again.</div>';
+        });
+    }
+    
+    function displaySearchResults(products, resultsGridId) {
+      const resultsGrid = document.getElementById(resultsGridId);
+      
+      if (products.length === 0) {
+        resultsGrid.innerHTML = '<div style="text-align: center; color: #A0522D; padding: 2rem;">No products found</div>';
+        return;
+      }
+      
+      const productsHTML = products.map(product => {
+        const image = product.featured_image && product.featured_image.url ? product.featured_image.url : '';
+        const priceInRupees = product.price ? Math.round(product.price) : 0; // Convert cents to rupees
+        const compareAtPriceInRupees = product.compare_at_price ? Math.round(product.compare_at_price) : 0;
+        const price = priceInRupees > 0 ? `₹${priceInRupees}` : '';
+        const compareAtPrice = compareAtPriceInRupees > priceInRupees ? `₹${compareAtPriceInRupees}` : '';
+        const isBestseller = product.tags && (product.tags.includes('best-seller') || product.tags.includes('bestseller'));
+        const isNew = product.tags && product.tags.includes('new');
+        // Use product handle for reliable cart functionality
+        const productHandle = product.handle;
+        console.log('Product handle:', productHandle); // Debug log
+        
+        return `
+          <a href="/products/${product.handle}" class="search-expansion__product-card">
+            <div class="search-expansion__product-image">
+              ${isBestseller ? '<span class="search-expansion__product-badge search-expansion__product-badge--bestseller">BEST SELLER</span>' : ''}
+              ${!isBestseller && isNew ? '<span class="search-expansion__product-badge search-expansion__product-badge--new">NEW</span>' : ''}
+              ${image ? `
+                <div class="image-skeleton"></div>
+                <img data-lazy src="" data-src="${image}" alt="${product.title}" style="opacity: 0; filter: blur(10px);">
+              ` : '<div class="search-expansion__product-placeholder">No Image</div>'}
+              <button class="search-expansion__product-heart" type="button" aria-label="Add to wishlist" onclick="event.preventDefault(); event.stopPropagation();">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <div class="search-expansion__product-info">
+              <h3 class="search-expansion__product-title">${product.title}</h3>
+              <div class="search-expansion__product-pricing">
+                ${compareAtPrice ? `<span class="search-expansion__product-price-old">${compareAtPrice}</span>` : ''}
+                <span class="search-expansion__product-price">${price}</span>
+              </div>
+              <button class="search-expansion__add-to-cart-btn" onclick="event.preventDefault(); event.stopPropagation(); addToCart('${productHandle}', \`${product.title.replace(/'/g, "\'")}\`, ${priceInRupees})">
+                Add to Cart
+              </button>
+            </div>
+          </a>
+        `;
+      }).join('');
+      
+      resultsGrid.innerHTML = productsHTML;
+      
+      // Show "See All" button if there are more results
+      const seeAllButton = document.getElementById(resultsGridId.replace('results-grid', 'see-all'));
+      if (seeAllButton) {
+        if (products.length >= 8) {
+          seeAllButton.style.display = 'block';
+        } else {
+          seeAllButton.style.display = 'none';
+        }
+      }
+      
+      // Initialize lazy loading for new images
+      initializeLazyLoading();
+    }
+    
+    // Lazy loading implementation
+    function initializeLazyLoading() {
+      const lazyImages = document.querySelectorAll('img[data-lazy]');
+      
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            const skeleton = img.parentElement.querySelector('.image-skeleton');
+            
+            img.onload = () => {
+              img.style.opacity = '1';
+              img.style.filter = 'blur(0px)';
+              img.classList.add('loaded');
+              if (skeleton) skeleton.remove();
+            };
+            
+            img.src = img.dataset.src;
+            img.removeAttribute('data-lazy');
+            observer.unobserve(img);
+          }
+        });
+      });
+      
+      lazyImages.forEach(img => imageObserver.observe(img));
+    }
+    
+    // Cart functionality
+    async function addToCart(productHandle, productTitle, price) {
+      console.log('Adding to cart:', { productHandle, productTitle, price });
+      
+      if (!productHandle) {
+        console.error('Invalid product handle:', productHandle);
+        alert('Unable to add item to cart. Product not found.');
+        return;
+      }
+      
+      try {
+        // First, fetch the actual product data to get the correct variant ID
+        const productResponse = await fetch(`/products/${productHandle}.js`);
+        if (!productResponse.ok) {
+          throw new Error('Product not found');
+        }
+        
+        const productData = await productResponse.json();
+        console.log('Product data from API:', productData);
+        
+        // Get the first available variant
+        const availableVariant = productData.variants.find(variant => variant.available);
+        if (!availableVariant) {
+          alert('This product is currently out of stock.');
+          return;
+        }
+        
+        const variantId = availableVariant.id;
+        console.log('Using variant ID:', variantId);
+        
+        // Get current cart data first
+        const cartResponse = await fetch('/cart.js');
+        const currentCart = await cartResponse.json();
+        const previousTotal = currentCart.total_price;
+        const previousCount = currentCart.item_count;
+        
+        // Add item to cart using JSON approach
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            id: variantId,
+            quantity: 1
+          })
+        });
+        
+        if (response.ok) {
+          // Get updated cart data
+          const updatedCartResponse = await fetch('/cart.js');
+          const updatedCart = await updatedCartResponse.json();
+          const newTotal = updatedCart.total_price;
+          const newCount = updatedCart.item_count;
+          
+          // Show notification with actual values
+          showCartNotification(productTitle, price, previousCount, newCount, previousTotal, newTotal);
+          
+          // Update cart icon count
+          updateCartIcon(newCount);
+        } else {
+          const errorData = await response.text();
+          console.error('Failed to add item to cart:', errorData, 'Response status:', response.status);
+          console.error('Attempted variant ID:', variantId);
+          
+          // Try to parse error response for more specific error message
+          try {
+            const errorJson = JSON.parse(errorData);
+            if (errorJson.message) {
+              alert(`Failed to add item to cart: ${errorJson.message}`);
+            } else {
+              alert('Failed to add item to cart. Please try again.');
+            }
+          } catch {
+            alert('Failed to add item to cart. Please try again.');
+          }
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Error adding item to cart. Please try again.');
+      }
+    }
+    
+    function showCartNotification(productTitle, price, previousCount, newCount, previousTotal, newTotal) {
+      const notification = document.getElementById('cart-notification');
+      const itemElement = document.getElementById('cart-notification-item');
+      const countElement = document.getElementById('cart-notification-count');
+      const totalElement = document.getElementById('cart-notification-total');
+      
+      if (!notification || !itemElement || !countElement || !totalElement) {
+        console.error('Notification elements not found');
+        return;
+      }
+      
+      // Convert cents to rupees for display
+      const previousTotalRupees = Math.round(previousTotal);
+      const newTotalRupees = Math.round(newTotal);
+      
+      itemElement.textContent = productTitle;
+      countElement.textContent = `Cart (${newCount} ${newCount === 1 ? 'item' : 'items'})`;
+      totalElement.textContent = `₹${previousTotalRupees} → ₹${newTotalRupees}`;
+      
+      // Clear any existing timeout
+      if (window.cartNotificationTimeout) {
+        clearTimeout(window.cartNotificationTimeout);
+      }
+      
+      // Reset notification state
+      notification.classList.remove('show', 'hide-on-scroll');
+      
+      // Show notification with slide up animation
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 100);
+      
+      // Auto-hide after 5 seconds
+      window.cartNotificationTimeout = setTimeout(() => {
+        closeCartNotification();
+      }, 5000);
+    }
+    
+    function closeCartNotification() {
+      const notification = document.getElementById('cart-notification');
+      if (notification) {
+        notification.classList.remove('show', 'hide-on-scroll');
+      }
+      
+      // Clear the timeout if it exists
+      if (window.cartNotificationTimeout) {
+        clearTimeout(window.cartNotificationTimeout);
+        window.cartNotificationTimeout = null;
+      }
+    }
+    
+    function updateCartIcon(itemCount) {
+      const cartLinks = document.querySelectorAll('.header__cart');
+      cartLinks.forEach(cartLink => {
+        let countElement = cartLink.querySelector('sup');
+        if (itemCount > 0) {
+          if (!countElement) {
+            countElement = document.createElement('sup');
+            cartLink.appendChild(countElement);
+          }
+          countElement.textContent = itemCount;
+        } else if (countElement) {
+          countElement.remove();
+        }
+      });
+    }
+    
+    // Add to cart from product page forms
+    async function addToCartFromForm(variantId, productTitle, price, quantity = 1) {
+      console.log('Adding to cart from form:', { variantId, productTitle, price, quantity });
+      
+      try {
+        // Get current cart data first
+        const cartResponse = await fetch('/cart.js');
+        const currentCart = await cartResponse.json();
+        const previousTotal = currentCart.total_price;
+        const previousCount = currentCart.item_count;
+        
+        // Add item to cart using JSON approach
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            id: parseInt(variantId),
+            quantity: parseInt(quantity)
+          })
+        });
+        
+        if (response.ok) {
+          // Get actual updated cart data
+          const updatedCartResponse = await fetch('/cart.js');
+          const updatedCart = await updatedCartResponse.json();
+          const newTotal = updatedCart.total_price;
+          const newCount = updatedCart.item_count;
+          
+          // Show notification with actual values
+          showCartNotification(productTitle, price, previousCount, newCount, previousTotal, newTotal);
+          
+          // Update cart icon count
+          updateCartIcon(newCount);
+        } else {
+          const errorData = await response.text();
+          console.error('Failed to add item to cart from form:', errorData, 'Response status:', response.status);
+          alert('Failed to add item to cart. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error adding to cart from form:', error);
+        alert('Error adding item to cart. Please try again.');
+      }
+    }
+    
+    // Make functions global
+    window.addToCart = addToCart;
+    window.addToCartFromForm = addToCartFromForm;
+    window.closeCartNotification = closeCartNotification;
+  });
+</script>
+
+{% schema %}
+{
+  "name": "t:general.header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:labels.menu"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Featured Products Collection",
+      "info": "Select the collection to display as featured products in search dropdown"
+    },
+    {
+      "type": "range",
+      "id": "featured_products_count",
+      "min": 4,
+      "max": 12,
+      "step": 2,
+      "label": "Number of featured products",
+      "default": 6
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image_1",
+      "label": "Sidebar Promo Image 1 (Slingbacks)"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image_2", 
+      "label": "Sidebar Promo Image 2 (Pick Your Penny)"
+    }
+  ]
+}
+{% endschema %}

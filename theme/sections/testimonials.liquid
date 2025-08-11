@@ -1,0 +1,590 @@
+{% stylesheet %}
+.testimonials {
+  padding: 4rem 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background-color: #fff;
+}
+
+.testimonials__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.testimonials__title {
+  color: #8B4513;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 3rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.testimonials__wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials__track {
+  display: flex;
+  gap: 2rem;
+  transition: transform 0.3s ease;
+  padding: 1rem 0;
+  cursor: grab;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.testimonials__track::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonials__track:active {
+  cursor: grabbing;
+}
+
+.testimonial-card {
+  flex: 0 0 auto;
+  width: 300px;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.testimonial-card__image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.testimonial-card__image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #f5f5f5;
+}
+
+.testimonial-card__image-placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8B4513, #A0522D);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.testimonial-card__rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  gap: 0.25rem;
+}
+
+.testimonial-card__star {
+  color: #FFD700;
+  font-size: 1.2rem;
+}
+
+.testimonial-card__star--empty {
+  color: #ddd;
+}
+
+.testimonial-card__header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.testimonial-card__name-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.testimonial-card__name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.testimonial-card__verified {
+  background: #8B4513;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.testimonial-card__comment {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-style: italic;
+}
+
+.testimonial-card__footer {
+  text-align: center;
+}
+
+.testimonial-card__source {
+  color: #8B4513;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.testimonial-card__date {
+  color: #999;
+  font-size: 0.85rem;
+}
+
+/* Navigation arrows */
+.testimonials__navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.testimonials__arrow {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #8B4513;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.testimonials__arrow:hover {
+  background: #A0522D;
+  transform: scale(1.1);
+}
+
+.testimonials__arrow:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .testimonials {
+    padding: 3rem 0;
+  }
+  
+  .testimonials__container {
+    padding: 0 1rem;
+  }
+  
+  .testimonials__title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .testimonials__track {
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+  
+  .testimonial-card {
+    width: 250px;
+    padding: 1rem;
+  }
+  
+  .testimonial-card__image,
+  .testimonial-card__image-placeholder {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .testimonial-card__image-placeholder {
+    font-size: 1.2rem;
+  }
+  
+  .testimonial-card__star {
+    font-size: 1rem;
+  }
+  
+  .testimonial-card__name {
+    font-size: 1rem;
+  }
+  
+  .testimonial-card__comment {
+    font-size: 0.9rem;
+  }
+  
+  .testimonials__arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonial-card {
+    width: 220px;
+  }
+  
+  .testimonials__navigation {
+    gap: 0.5rem;
+  }
+}
+
+/* Touch scrolling improvements */
+.testimonials__track {
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+
+.testimonial-card {
+  scroll-snap-align: start;
+}
+{% endstylesheet %}
+
+<section class="testimonials">
+  <div class="testimonials__container">
+    {% if section.settings.title != blank %}
+      <h2 class="testimonials__title">{{ section.settings.title }}</h2>
+    {% endif %}
+    
+    <div class="testimonials__wrapper">
+      <div class="testimonials__track" id="testimonials-track">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'testimonial' %}
+              <div class="testimonial-card">
+                <div class="testimonial-card__image-container">
+                  {% if block.settings.customer_image != blank %}
+                    <img src="{{ block.settings.customer_image | image_url: width: 160 }}" 
+                         alt="{{ block.settings.customer_name | default: 'Customer' }}" 
+                         class="testimonial-card__image">
+                  {% else %}
+                    <div class="testimonial-card__image-placeholder">
+                      {{ block.settings.customer_name | default: 'User' | slice: 0, 1 | upcase }}
+                    </div>
+                  {% endif %}
+                </div>
+                
+                <div class="testimonial-card__rating">
+                  {% assign rating = block.settings.rating | default: 5 %}
+                  {% for i in (1..5) %}
+                    {% if i <= rating %}
+                      <span class="testimonial-card__star">★</span>
+                    {% else %}
+                      <span class="testimonial-card__star testimonial-card__star--empty">★</span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+                
+                <div class="testimonial-card__header">
+                  <div class="testimonial-card__name-wrapper">
+                    <span class="testimonial-card__name">
+                      {{ block.settings.customer_name | default: 'Anonymous' }}
+                    </span>
+                    {% if block.settings.verified %}
+                      <span class="testimonial-card__verified">Verified</span>
+                    {% endif %}
+                  </div>
+                </div>
+                
+                {% if block.settings.comment != blank %}
+                  <div class="testimonial-card__comment">
+                    "{{ block.settings.comment }}"
+                  </div>
+                {% endif %}
+                
+                <div class="testimonial-card__footer">
+                  {% if block.settings.source != blank %}
+                    <div class="testimonial-card__source">{{ block.settings.source }}</div>
+                  {% endif %}
+                  {% if block.settings.date != blank %}
+                    <div class="testimonial-card__date">{{ block.settings.date }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% comment %} Default testimonials when no blocks are added {% endcomment %}
+          {% assign mock_testimonials = 'Latika,Priya,Aditi,Sneha,Kavya' | split: ',' %}
+          {% assign mock_comments = 'Just wow! Absolutely beautiful saree,Soft and comfortable fabric. Love it!,Amazing quality and fast delivery,Perfect fit and stunning design,Great experience shopping here' | split: ',' %}
+          {% assign mock_sources = 'Prakriti,Amazon,Flipkart,Myntra,Website' | split: ',' %}
+          {% assign mock_dates = '31/07/2025,28/07/2025,25/07/2025,22/07/2025,20/07/2025' | split: ',' %}
+          
+          {% for name in mock_testimonials %}
+            <div class="testimonial-card">
+              <div class="testimonial-card__image-container">
+                <div class="testimonial-card__image-placeholder">
+                  {{ name | slice: 0, 1 | upcase }}
+                </div>
+              </div>
+              
+              <div class="testimonial-card__rating">
+                {% for i in (1..5) %}
+                  <span class="testimonial-card__star">★</span>
+                {% endfor %}
+              </div>
+              
+              <div class="testimonial-card__header">
+                <div class="testimonial-card__name-wrapper">
+                  <span class="testimonial-card__name">{{ name }}</span>
+                  <span class="testimonial-card__verified">Verified</span>
+                </div>
+              </div>
+              
+              <div class="testimonial-card__comment">
+                "{{ mock_comments[forloop.index0] }}"
+              </div>
+              
+              <div class="testimonial-card__footer">
+                <div class="testimonial-card__source">{{ mock_sources[forloop.index0] }}</div>
+                <div class="testimonial-card__date">{{ mock_dates[forloop.index0] }}</div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="testimonials__navigation">
+      <button class="testimonials__arrow" id="testimonials-prev" onclick="scrollTestimonials('prev')">
+        ❮
+      </button>
+      <button class="testimonials__arrow" id="testimonials-next" onclick="scrollTestimonials('next')">
+        ❯
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const track = document.getElementById('testimonials-track');
+  const prevBtn = document.getElementById('testimonials-prev');
+  const nextBtn = document.getElementById('testimonials-next');
+  
+  if (!track) return;
+  
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  
+  // Touch/drag scrolling
+  track.addEventListener('mousedown', (e) => {
+    isDown = true;
+    track.style.cursor = 'grabbing';
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+    e.preventDefault();
+  });
+  
+  track.addEventListener('mouseleave', () => {
+    isDown = false;
+    track.style.cursor = 'grab';
+  });
+  
+  track.addEventListener('mouseup', () => {
+    isDown = false;
+    track.style.cursor = 'grab';
+  });
+  
+  track.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX) * 2;
+    track.scrollLeft = scrollLeft - walk;
+  });
+  
+  // Touch events
+  let touchStartX = 0;
+  let touchScrollLeft = 0;
+  
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchScrollLeft = track.scrollLeft;
+  });
+  
+  track.addEventListener('touchmove', (e) => {
+    const touchX = e.touches[0].clientX;
+    const walk = (touchStartX - touchX) * 1.5;
+    track.scrollLeft = touchScrollLeft + walk;
+  });
+  
+  // Update button states
+  function updateButtons() {
+    if (prevBtn && nextBtn) {
+      prevBtn.disabled = track.scrollLeft <= 0;
+      nextBtn.disabled = track.scrollLeft >= (track.scrollWidth - track.clientWidth);
+    }
+  }
+  
+  // Initial button state
+  updateButtons();
+  
+  // Update buttons on scroll
+  track.addEventListener('scroll', updateButtons);
+});
+
+// Arrow navigation
+function scrollTestimonials(direction) {
+  const track = document.getElementById('testimonials-track');
+  if (!track) return;
+  
+  const cardWidth = 300; // Card width + gap
+  const scrollAmount = cardWidth + 32; // Card width + gap
+  
+  if (direction === 'prev') {
+    track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  } else {
+    track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  }
+}
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "header",
+      "content": "Instructions"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add testimonial blocks below. Each testimonial can have a customer image, name, rating, comment, and verification status. If no blocks are added, default testimonials will be shown."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "customer_image",
+          "label": "Customer Image",
+          "info": "Square image recommended (1:1 aspect ratio)"
+        },
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Customer Name",
+          "default": "Customer Name"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified Customer",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "comment",
+          "label": "Customer Comment",
+          "default": "Amazing quality and service!"
+        },
+        {
+          "type": "text",
+          "id": "source",
+          "label": "Review Source",
+          "default": "Prakriti",
+          "info": "e.g., Amazon, Website, Google, etc."
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Review Date",
+          "default": "31/07/2025",
+          "info": "Format: DD/MM/YYYY"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "customer_name": "Latika",
+            "verified": true,
+            "rating": 5,
+            "comment": "Just wow! Absolutely beautiful saree",
+            "source": "Prakriti",
+            "date": "31/07/2025"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "customer_name": "Priya",
+            "verified": true,
+            "rating": 5,
+            "comment": "Soft and comfortable fabric. Love it!",
+            "source": "Amazon",
+            "date": "28/07/2025"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "customer_name": "Aditi",
+            "verified": true,
+            "rating": 4,
+            "comment": "Amazing quality and fast delivery",
+            "source": "Flipkart",
+            "date": "25/07/2025"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

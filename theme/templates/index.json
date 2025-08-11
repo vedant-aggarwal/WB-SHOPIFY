@@ -1,0 +1,78 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "banner-carousel",
+      "blocks": {
+        "banner_1": {
+          "type": "banner",
+          "settings": {}
+        }
+      },
+      "block_order": ["banner_1"],
+      "settings": {}
+    },
+    "product_categories": {
+      "type": "product-categories",
+      "settings": {
+        "title": "Shop by Category"
+      }
+    },
+    "shop_by_videos": {
+      "type": "shop-by-videos",
+      "settings": {
+        "title": "Shop by Videos",
+        "subtitle": "Discover products through our Instagram reels",
+        "instagram_username": "wonder.bazaar",
+        "max_videos": 10,
+        "show_filters": true,
+        "auto_play_modal": true,
+        "cards_per_view": 4
+      }
+    },
+    "hots_section": {
+      "type": "hots-section",
+      "settings": {
+        "title": "Hots",
+        "subtitle": "Discover what everyone is buying",
+        "display_method": "popular",
+        "recent_title": "Recently Added",
+        "recent_subtitle": "Fresh arrivals you do not want to miss",
+        "recent_products_count": 8,
+        "show_ratings": true,
+        "show_stats": true,
+        "auto_rotate_variations": true
+      }
+    },
+    "about_us": {
+      "type": "about-us",
+      "settings": {
+        "title": "Every Item Plants Trees",
+        "subtitle": "Join Us in Protecting the World We Play In",
+        "button_text": "ABOUT US"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "title": "What Our Customers Say"
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "product_categories",
+    "shop_by_videos",
+    "hots_section",
+    "about_us",
+    "testimonials"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "main": {
+      "type": "sarees-cat"
+    }
+  },
+  "order": ["main"]
+}

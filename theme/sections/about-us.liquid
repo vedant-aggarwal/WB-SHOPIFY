@@ -1,0 +1,264 @@
+{% stylesheet %}
+.about-us {
+  padding: 4rem 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background-color: #f8f8f8;
+}
+
+.about-us__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.about-us__image {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1;
+  margin: 0 auto 3rem auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.about-us__image:hover {
+  transform: scale(1.02);
+}
+
+.about-us__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-us__content {
+  padding: 2rem 0;
+}
+
+.about-us__title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.about-us__subtitle {
+  font-size: 1.25rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.about-us__description {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.about-us__buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.about-us__button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background-color: #8B4513;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  border: 2px solid #8B4513;
+}
+
+.about-us__button:hover {
+  background-color: #A0522D;
+  border-color: #A0522D;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139,69,19,0.3);
+}
+
+/* Image placeholders for when no images are uploaded */
+.about-us__image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #8B4513, #A0522D);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .about-us {
+    padding: 3rem 0;
+  }
+  
+  .about-us__container {
+    padding: 0 1rem;
+  }
+  
+  .about-us__image {
+    max-width: 400px;
+    margin-bottom: 2rem;
+  }
+  
+  .about-us__title {
+    font-size: 2rem;
+  }
+  
+  .about-us__subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .about-us__button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-us__image {
+    max-width: 300px;
+  }
+  
+  .about-us__title {
+    font-size: 1.75rem;
+  }
+  
+  .about-us__button {
+    width: 200px;
+    text-align: center;
+  }
+}
+{% endstylesheet %}
+
+<section class="about-us">
+  <div class="about-us__container">
+    <div class="about-us__image">
+      {% if section.settings.main_image != blank %}
+        <img src="{{ section.settings.main_image | image_url: width: 800 }}" 
+             alt="{{ section.settings.main_image_alt | default: 'About us' }}">
+      {% else %}
+        <div class="about-us__image-placeholder">
+          <div>
+            <strong>Main Image</strong><br>
+            Upload in theme editor<br>
+            (Square aspect ratio recommended)
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="about-us__content">
+      <h2 class="about-us__title">
+        {{ section.settings.title | default: 'Every Item Plants Trees' }}
+      </h2>
+      
+      {% if section.settings.subtitle != blank %}
+        <h3 class="about-us__subtitle">
+          {{ section.settings.subtitle }}
+        </h3>
+      {% endif %}
+      
+      <div class="about-us__description">
+        {{ section.settings.description | default: "We're on a mission to restore the planet by planting trees and creating Earth-First, sustainably made apparel. Each tentree item sold, we plant trees worldwide that capture carbon, restore ecosystems, protect wildlife habitats, and create jobs in communities that need them most. Our goal is to plant 1 billion trees with you by 2030." }}
+      </div>
+      
+      <div class="about-us__buttons">
+        {% if section.settings.button_text != blank %}
+          <a href="{{ section.settings.button_url | default: '#' }}" 
+             class="about-us__button">
+            {{ section.settings.button_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Us",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Every Item Plants Trees"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Join Us in Protecting the World We Play In"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>We're on a mission to restore the planet by planting trees and creating Earth-First, sustainably made apparel. Each tentree item sold, we plant trees worldwide that capture carbon, restore ecosystems, protect wildlife habitats, and create jobs in communities that need them most. Our goal is to plant 1 billion trees with you by 2030.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Image",
+      "info": "Square aspect ratio recommended (1:1)"
+    },
+    {
+      "type": "text",
+      "id": "main_image_alt",
+      "label": "Image Alt Text"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "ABOUT US"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us",
+      "settings": {
+        "title": "Every Item Plants Trees",
+        "subtitle": "Join Us in Protecting the World We Play In",
+        "button_text": "ABOUT US"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,684 @@
+{% stylesheet %}
+.instagram-showcase {
+  padding: 3rem 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background-color: #fafafa;
+}
+
+.instagram-showcase__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.instagram-showcase__title {
+  color: #8B4513;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.instagram-showcase__tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.instagram-showcase__tab {
+  background: none;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.instagram-showcase__tab.active {
+  color: #8B4513;
+  border-bottom-color: #8B4513;
+}
+
+.instagram-showcase__tab:hover {
+  color: #A0522D;
+}
+
+.instagram-showcase__content {
+  min-height: 400px;
+}
+
+.instagram-showcase__panel {
+  display: none;
+}
+
+.instagram-showcase__panel.active {
+  display: block;
+}
+
+/* Products Section */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.product-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.product-card__image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+.product-card__content {
+  padding: 1rem;
+}
+
+.product-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.product-card__price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #8B4513;
+}
+
+.product-card__compare-price {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+  margin-left: 0.5rem;
+}
+
+/* Videos Section */
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.video-card {
+  position: relative;
+  aspect-ratio: 9/16;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+  transition: transform 0.3s ease;
+}
+
+.video-card:hover {
+  transform: scale(1.05);
+}
+
+.video-card__thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-card__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(transparent 60%, rgba(0,0,0,0.7));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-card__play-button {
+  width: 60px;
+  height: 60px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #8B4513;
+  transition: all 0.3s ease;
+}
+
+.video-card:hover .video-card__play-button {
+  background: white;
+  transform: scale(1.1);
+}
+
+.video-card__info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  color: white;
+}
+
+.video-card__likes {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.video-card__products {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.video-card__product-tag {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Video Modal */
+.video-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.video-modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-modal__content {
+  max-width: 90vw;
+  max-height: 90vh;
+  position: relative;
+  display: flex;
+  gap: 2rem;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.video-modal__video-container {
+  flex: 0 0 auto;
+  max-width: 400px;
+  aspect-ratio: 9/16;
+  background: #000;
+}
+
+.video-modal__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-modal__sidebar {
+  flex: 1;
+  padding: 2rem;
+  max-width: 300px;
+  overflow-y: auto;
+}
+
+.video-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  z-index: 10;
+}
+
+.video-modal__products {
+  margin-top: 1rem;
+}
+
+.video-modal__product {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.video-modal__product:hover {
+  border-color: #8B4513;
+  box-shadow: 0 2px 8px rgba(139,69,19,0.1);
+}
+
+.video-modal__product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.video-modal__product-info h4 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.video-modal__product-price {
+  font-weight: bold;
+  color: #8B4513;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .instagram-showcase {
+    padding: 2rem 0;
+  }
+  
+  .instagram-showcase__title {
+    font-size: 1.5rem;
+  }
+  
+  .instagram-showcase__tab {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .videos-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .video-modal__content {
+    flex-direction: column;
+    max-height: 95vh;
+    margin: 1rem;
+  }
+  
+  .video-modal__video-container {
+    max-width: 100%;
+    aspect-ratio: 16/9;
+  }
+  
+  .video-modal__sidebar {
+    max-width: 100%;
+    padding: 1rem;
+  }
+}
+
+/* Loading States */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #8B4513;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+{% endstylesheet %}
+
+<section class="instagram-showcase">
+  <div class="instagram-showcase__container">
+    <h2 class="instagram-showcase__title">{{ section.settings.title | default: 'Seen on Instagram' }}</h2>
+    
+    <div class="instagram-showcase__tabs">
+      <button class="instagram-showcase__tab active" data-tab="products">
+        Browse by Products
+      </button>
+      <button class="instagram-showcase__tab" data-tab="videos">
+        Browse by Videos
+      </button>
+    </div>
+    
+    <div class="instagram-showcase__content">
+      <!-- Products Panel -->
+      <div class="instagram-showcase__panel active" id="products-panel">
+        <div class="products-grid" id="products-grid">
+          {% comment %} Products will be loaded here {% endcomment %}
+          {% if section.settings.collection != blank %}
+            {% assign featured_collection = collections[section.settings.collection] %}
+            {% assign products_to_show = featured_collection.products | slice: 0, 8 %}
+          {% else %}
+            {% comment %} Show popular products from all collections {% endcomment %}
+            {% assign products_to_show = collections.all.products | slice: 0, 8 %}
+          {% endif %}
+          
+          {% for product in products_to_show %}
+            <a href="{{ product.url }}" class="product-card">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | image_url: width: 300 }}" 
+                     alt="{{ product.title }}" 
+                     class="product-card__image">
+              {% else %}
+                <div class="product-card__image" style="background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #999;">
+                  No Image
+                </div>
+              {% endif %}
+              <div class="product-card__content">
+                <h3 class="product-card__title">{{ product.title }}</h3>
+                <div class="product-card__price">
+                  {{ product.price | money }}
+                  {% if product.compare_at_price > product.price %}
+                    <span class="product-card__compare-price">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <!-- Videos Panel -->
+      <div class="instagram-showcase__panel" id="videos-panel">
+        <div class="videos-grid" id="videos-grid">
+          <div class="loading-spinner">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video Modal -->
+<div class="video-modal" id="video-modal">
+  <div class="video-modal__content">
+    <button class="video-modal__close" onclick="closeVideoModal()">&times;</button>
+    <div class="video-modal__video-container">
+      <video class="video-modal__video" id="modal-video" controls autoplay loop>
+        <source src="" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-modal__sidebar">
+      <h3 id="modal-video-title">Instagram Reel</h3>
+      <p id="modal-video-caption"></p>
+      <div class="video-modal__products" id="modal-products">
+        <!-- Products will be dynamically added here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ 'instagram-api.js' | asset_url | script_tag }}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tabs = document.querySelectorAll('.instagram-showcase__tab');
+  const panels = document.querySelectorAll('.instagram-showcase__panel');
+  const videosGrid = document.getElementById('videos-grid');
+  
+  // Tab switching
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active from all tabs and panels
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      
+      // Add active to clicked tab
+      tab.classList.add('active');
+      
+      // Show corresponding panel
+      const targetPanel = document.getElementById(tab.dataset.tab + '-panel');
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+        
+        // Load videos when videos tab is clicked
+        if (tab.dataset.tab === 'videos') {
+          loadInstagramVideos();
+        }
+      }
+    });
+  });
+  
+  // Instagram API integration
+  async function loadInstagramVideos() {
+    try {
+      // Initialize Instagram API with access token from settings
+      const accessToken = '{{ section.settings.instagram_access_token }}';
+      if (window.InstagramAPI) {
+        window.InstagramAPI.init(accessToken);
+        const videos = await window.InstagramAPI.fetchUserMedia();
+        
+        // Sort videos: pinned first, then by likes
+        const sortedVideos = videos.sort((a, b) => {
+          if (a.isPinned && !b.isPinned) return -1;
+          if (!a.isPinned && b.isPinned) return 1;
+          return b.likes - a.likes;
+        });
+        
+        renderVideos(sortedVideos);
+      } else {
+        renderMockVideos();
+      }
+    } catch (error) {
+      console.error('Error loading Instagram videos:', error);
+      renderMockVideos();
+    }
+  }
+  
+  function renderMockVideos() {
+    // Mock data for demonstration
+    const mockVideos = [
+      {
+        id: '1',
+        thumbnail: 'https://via.placeholder.com/300x533/8B4513/FFFFFF?text=Reel+1',
+        video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+        caption: 'Beautiful saree collection showcase',
+        likes: 1250,
+        products: [
+          { id: 1, title: 'Red Silk Saree', price: '$199', image: 'https://via.placeholder.com/60' },
+          { id: 2, title: 'Gold Blouse', price: '$89', image: 'https://via.placeholder.com/60' }
+        ]
+      },
+      {
+        id: '2',
+        thumbnail: 'https://via.placeholder.com/300x533/A0522D/FFFFFF?text=Reel+2',
+        video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+        caption: 'Trendy kurta styling tips',
+        likes: 890,
+        products: [
+          { id: 3, title: 'Cotton Kurta', price: '$79', image: 'https://via.placeholder.com/60' }
+        ]
+      },
+      {
+        id: '3',
+        thumbnail: 'https://via.placeholder.com/300x533/8B4513/FFFFFF?text=Reel+3',
+        video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+        caption: 'Lehenga for special occasions',
+        likes: 2100,
+        products: [
+          { id: 4, title: 'Designer Lehenga', price: '$299', image: 'https://via.placeholder.com/60' }
+        ]
+      },
+      {
+        id: '4',
+        thumbnail: 'https://via.placeholder.com/300x533/A0522D/FFFFFF?text=Reel+4',
+        video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+        caption: 'Ethnic wear collection',
+        likes: 1680,
+        products: []
+      }
+    ];
+    
+    renderVideos(mockVideos);
+  }
+  
+  function renderVideos(videos) {
+    const html = videos.map(video => `
+      <div class="video-card" onclick="openVideoModal('${video.id}', '${video.video_url}', '${video.caption}', '${video.likes}', ${JSON.stringify(video.products).replace(/"/g, '&quot;')})">
+        <img src="${video.thumbnail}" alt="Video thumbnail" class="video-card__thumbnail">
+        <div class="video-card__overlay">
+          <div class="video-card__play-button">▶</div>
+        </div>
+        <div class="video-card__info">
+          <div class="video-card__likes">❤ ${video.likes}</div>
+          <div class="video-card__products">
+            ${video.products.slice(0, 2).map(product => 
+              `<span class="video-card__product-tag">${product.title}</span>`
+            ).join('')}
+            ${video.products.length > 2 ? `<span class="video-card__product-tag">+${video.products.length - 2}</span>` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+    
+    videosGrid.innerHTML = html;
+  }
+});
+
+// Video modal functions
+function openVideoModal(videoId, videoUrl, caption, likes, products) {
+  const modal = document.getElementById('video-modal');
+  const video = document.getElementById('modal-video');
+  const title = document.getElementById('modal-video-title');
+  const captionEl = document.getElementById('modal-video-caption');
+  const productsContainer = document.getElementById('modal-products');
+  
+  // Set video source
+  video.querySelector('source').src = videoUrl;
+  video.load();
+  
+  // Set content
+  title.textContent = `Instagram Reel (❤ ${likes})`;
+  captionEl.textContent = caption;
+  
+  // Render products
+  if (products && products.length > 0) {
+    const productsHtml = products.map(product => `
+      <div class="video-modal__product" onclick="window.open('/products/${product.id}', '_blank')">
+        <img src="${product.image}" alt="${product.title}" class="video-modal__product-image">
+        <div class="video-modal__product-info">
+          <h4>${product.title}</h4>
+          <div class="video-modal__product-price">${product.price}</div>
+        </div>
+      </div>
+    `).join('');
+    productsContainer.innerHTML = `<h4>Featured Products:</h4>${productsHtml}`;
+  } else {
+    productsContainer.innerHTML = '<p>No products tagged in this video.</p>';
+  }
+  
+  // Show modal
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('video-modal');
+  const video = document.getElementById('modal-video');
+  
+  modal.classList.remove('active');
+  video.pause();
+  document.body.style.overflow = '';
+}
+
+// Close modal when clicking outside
+document.getElementById('video-modal').addEventListener('click', (e) => {
+  if (e.target.id === 'video-modal') {
+    closeVideoModal();
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Instagram Showcase",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Seen on Instagram"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Featured Collection",
+      "info": "Select a collection to feature, or leave empty to show popular products from all collections"
+    },
+    {
+      "type": "text",
+      "id": "instagram_username",
+      "label": "Instagram Username",
+      "default": "wonder.bazaar",
+      "info": "Instagram account to fetch reels from"
+    },
+    {
+      "type": "header",
+      "content": "Instagram API Settings"
+    },
+    {
+      "type": "paragraph",
+      "content": "To enable Instagram integration, you'll need to configure the Instagram Basic Display API in your backend. Contact your developer for setup."
+    },
+    {
+      "type": "text",
+      "id": "instagram_access_token",
+      "label": "Instagram Access Token",
+      "info": "Enter your Instagram API access token (configure in backend)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram Showcase"
+    }
+  ]
+}
+{% endschema %}
