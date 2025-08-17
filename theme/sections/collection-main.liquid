@@ -1,0 +1,296 @@
+{% comment %}
+  This section displays products in a specific collection or subcategories for main categories
+{% endcomment %}
+
+{% comment %} Check if this is a main category that should show subcategories {% endcomment %}
+{% assign main_categories = 'sarees,lehengas,dresses,suits,accessories,mens,mens-accessories' | split: ',' %}
+{% assign is_main_category = false %}
+{% for main_cat in main_categories %}
+  {% if collection.handle == main_cat %}
+    {% assign is_main_category = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if is_main_category %}
+  {% comment %} Show subcategories for main categories {% endcomment %}
+  <div class="collection-header">
+    <h1 class="collection-title">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="collection-description">{{ collection.description }}</div>
+    {% endif %}
+  </div>
+
+  <div class="subcategories-grid">
+    {% case collection.handle %}
+      {% when 'sarees' %}
+        {% assign subcategories = 'Party Wear Sarees,Silk Sarees,Printed Sarees,Net Sarees,Premium Sarees,Drape and Sequin Sarees,Readymade Blouse Sarees,Gifting Sarees' | split: ',' %}
+        {% assign handles = 'party-wear-sarees,silk-sarees,printed-sarees,net-sarees,premium-sarees,drape-sequin-sarees,readymade-blouse-sarees,gifting-sarees' | split: ',' %}
+      {% when 'lehengas' %}
+        {% assign subcategories = 'Bridal Lehenga,Non-Bridal Lehenga' | split: ',' %}
+        {% assign handles = 'bridal-lehenga,non-bridal-lehenga' | split: ',' %}
+      {% when 'dresses' %}
+        {% assign subcategories = 'Gowns,Crop-Top Sets,Sharara Sets,Peplum Tops' | split: ',' %}
+        {% assign handles = 'gowns,crop-tops,sharara-sets,peplum-tops' | split: ',' %}
+      {% when 'suits' %}
+        {% assign subcategories = 'Party Wear Suits,Casual Suits,Woollen Suits' | split: ',' %}
+        {% assign handles = 'party-wear-suits,casual-suits,woollen-suits' | split: ',' %}
+      {% when 'accessories' %}
+        {% assign subcategories = 'Lehenga Tassels,Lehenga Belts,Dupatta Border and Laces,Customized Name Tassels' | split: ',' %}
+        {% assign handles = 'lehenga-tassels,lehenga-belts,dupatta-borders-laces,customized-name-tassels' | split: ',' %}
+      {% when 'mens' %}
+        {% assign subcategories = 'Sherwani,Indo-Western,Men\'s Suits,Kurta Pajama,Pant Shirt Pairs,Safari Suits,Suit Lengths' | split: ',' %}
+        {% assign handles = 'sherwani,indo-western,mens-suits,kurta-pajama,pant-shirt-pairs,safari-suits,suit-lengths' | split: ',' %}
+      {% when 'mens-accessories' %}
+        {% assign subcategories = 'Juti,Mala,Sehra,Patka,Brooch' | split: ',' %}
+        {% assign handles = 'juti,mala,sehra,patka,brooch' | split: ',' %}
+    {% endcase %}
+
+    {% for subcategory in subcategories %}
+      {% assign subcategory_handle = handles[forloop.index0] %}
+      <a href="/collections/{{ subcategory_handle }}" class="subcategory-card">
+        <div class="subcategory-card__content">
+          <h3 class="subcategory-card__title">{{ subcategory }}</h3>
+          <p class="subcategory-card__description">Shop our {{ subcategory | downcase }} collection</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+
+{% else %}
+  {% comment %} Show products for specific collections {% endcomment %}
+  <div class="collection-header">
+    <h1 class="collection-title">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="collection-description">{{ collection.description }}</div>
+    {% endif %}
+  </div>
+
+  {% if collection.products.size > 0 %}
+    <div class="products-grid">
+      {% for product in collection.products %}
+        <div class="product-card">
+          <a href="{{ product.url }}" class="product-card__link">
+            {% if product.featured_image %}
+              <div class="product-card__image">
+                <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}" loading="lazy">
+              </div>
+            {% endif %}
+            <div class="product-card__content">
+              <h3 class="product-card__title">{{ product.title }}</h3>
+              <div class="product-card__price">
+                {% if product.compare_at_price > product.price %}
+                  <span class="product-card__price--sale">{{ product.price | money }}</span>
+                  <span class="product-card__price--compare">{{ product.compare_at_price | money }}</span>
+                {% else %}
+                  <span class="product-card__price--regular">{{ product.price | money }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-collection">
+      <h2>Coming Soon</h2>
+      <p>This collection will be available soon. Please check back later!</p>
+      <a href="{{ routes.root_url }}" class="btn btn--primary">Continue Shopping</a>
+    </div>
+  {% endif %}
+
+{% endif %}
+
+{% stylesheet %}
+.collection-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 1rem;
+}
+
+.collection-title {
+  color: #8B4513;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.collection-description {
+  color: #A0522D;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.subcategories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.subcategory-card {
+  background: white;
+  border: 2px solid #8B4513;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  text-decoration: none;
+  color: #8B4513;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.subcategory-card:hover {
+  transform: translateY(-2px);
+  border-color: #A0522D;
+}
+
+.subcategory-card__title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.subcategory-card__description {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.product-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.product-card__link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-card__image {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.product-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-card__content {
+  padding: 1rem;
+}
+
+.product-card__title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.product-card__price {
+  font-weight: 600;
+}
+
+.product-card__price--sale {
+  color: #e74c3c;
+  margin-right: 0.5rem;
+}
+
+.product-card__price--compare {
+  color: #999;
+  text-decoration: line-through;
+  font-size: 0.9rem;
+}
+
+.product-card__price--regular {
+  color: #8B4513;
+}
+
+.empty-collection {
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.empty-collection h2 {
+  color: #8B4513;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.empty-collection p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn--primary {
+  background: #8B4513;
+  color: white;
+}
+
+.btn--primary:hover {
+  background: #A0522D;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .collection-title {
+    font-size: 2rem;
+  }
+  
+  .subcategories-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .subcategory-card {
+    padding: 1.5rem;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection Main",
+  "settings": []
+}
+{% endschema %}

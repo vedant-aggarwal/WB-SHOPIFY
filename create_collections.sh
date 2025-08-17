@@ -60,6 +60,47 @@ create_collection() {
 echo "Creating collections for all subcategories..."
 echo ""
 
+# Main Category Collections (for navigation)
+echo "🏠 MAIN CATEGORY COLLECTIONS"
+echo "============================"
+
+create_collection \
+    "Sarees - Wonder Bazaar" \
+    "<p>Discover our complete collection of sarees at Wonder Bazaar. From traditional silk sarees to contemporary designer pieces, we offer a wide range of beautiful sarees for every occasion. Shop authentic Indian sarees online with fast delivery across India.</p>" \
+    "sarees"
+
+create_collection \
+    "Lehengas - Wonder Bazaar" \
+    "<p>Explore our stunning lehenga collection at Wonder Bazaar. Perfect for weddings, festivals, and special occasions, our lehengas feature exquisite craftsmanship and contemporary designs. Find your perfect lehenga online with assured quality and authenticity.</p>" \
+    "lehengas"
+
+create_collection \
+    "Dresses - Wonder Bazaar" \
+    "<p>Browse our premium dress collection at Wonder Bazaar. From elegant gowns to trendy crop-top sets, our dresses combine style and comfort for the modern woman. Shop beautiful dresses online for every occasion and make a fashion statement.</p>" \
+    "dresses"
+
+create_collection \
+    "Suits - Wonder Bazaar" \
+    "<p>Shop our elegant suit collection at Wonder Bazaar. Featuring party wear, casual, and woollen suits, our collection offers perfect fits and beautiful designs for every occasion. Discover comfortable and stylish suits online with premium quality fabrics.</p>" \
+    "suits"
+
+create_collection \
+    "Accessories - Wonder Bazaar" \
+    "<p>Complete your look with our beautiful accessories collection at Wonder Bazaar. From lehenga tassels to customized name pieces, our accessories add the perfect finishing touch to any outfit. Shop premium quality accessories online.</p>" \
+    "accessories"
+
+create_collection \
+    "Mens Collection - Wonder Bazaar" \
+    "<p>Discover our comprehensive men's collection at Wonder Bazaar. From traditional sherwanis to modern indo-western wear, we offer premium quality men's clothing for every occasion. Shop authentic men's fashion online with style and comfort.</p>" \
+    "mens"
+
+create_collection \
+    "Mens Accessories - Wonder Bazaar" \
+    "<p>Browse our exclusive men's accessories collection at Wonder Bazaar. From traditional jutis to elegant brooches, our accessories complement every man's style. Shop premium quality men's accessories online for the perfect finishing touch.</p>" \
+    "mens-accessories"
+
+echo ""
+
 # Sarees Collections
 echo "🌟 SAREES COLLECTIONS"
 echo "====================="
