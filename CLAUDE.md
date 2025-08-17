@@ -131,4 +131,10 @@ The system uses Shopify's built-in `/collections/` URLs that work immediately wi
 - All interactive elements should be touch-friendly
 - Maintain accessibility with proper alt text and semantic HTML
 - **Background Commands**: Always use tmux for running background commands like Shopify theme dev server
-- **Development Server**: When editing files, stop the dev server first. When done editing, start `shopify theme dev --store wb-shopify` in tmux session in the theme directory
+- **Development Server Workflow**: 
+  1. After making any changes to theme files, ALWAYS start the dev server to test
+  2. Use tmux session in the theme directory
+  3. Command: `shopify theme dev --store xvtt3i-0e.myshopify.com`
+  4. When starting to edit files, stop the dev server first
+  5. After editing is complete, restart the server to check for errors
+  6. Fix any validation errors that appear before considering the task complete

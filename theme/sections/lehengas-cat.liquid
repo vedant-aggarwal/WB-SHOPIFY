@@ -15,13 +15,18 @@
       {% assign subcategories_input = section.settings.subcategories_list | default: 'Bridal Lehenga,Non-Bridal Lehenga' %}
       {% assign subcategories = subcategories_input | split: ',' %}
       
+      {% comment %} Collection handle mapping {% endcomment %}
+      {% assign collection_handles = 'bridal-lehenga,non-bridal-lehenga' | split: ',' %}
+      {% assign collection_images = 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=600&fit=crop&auto=format,https://images.unsplash.com/photo-1583391733981-241945e645b2?w=400&h=600&fit=crop&auto=format' | split: ',' %}
+      
       {% for subcategory in subcategories %}
-        {% assign subcategory_handle = subcategory | handleize %}
-        {% assign search_url = routes.search_url | append: '?q=' | append: subcategory_handle %}
+        {% assign collection_handle = collection_handles[forloop.index0] %}
+        {% assign collection_url = '/collections/' | append: collection_handle %}
+        {% assign image_url = collection_images[forloop.index0] %}
         
-        <a href="{{ search_url }}" class="category-display__card">
-          <div class="category-display__card-icon">
-            {{ subcategory | slice: 0, 2 | upcase }}
+        <a href="{{ collection_url }}" class="category-display__card">
+          <div class="category-display__card-image">
+            <img src="{{ image_url }}" alt="{{ subcategory }} - Wonder Bazaar" loading="lazy">
           </div>
           <h2 class="category-display__card-title">{{ subcategory }}</h2>
           <p class="category-display__card-description">
@@ -86,7 +91,7 @@
   background: white;
   border: 2px solid #8B4513;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1.5rem;
   text-align: center;
   text-decoration: none;
   color: #8B4513;
@@ -94,15 +99,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 200px;
-  justify-content: center;
+  min-height: 400px;
+  justify-content: flex-start;
+  overflow: hidden;
 }
 
-.category-display__card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15);
-  color: #A0522D;
-  border-color: #A0522D;
+
+.category-display__card-image {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.category-display__card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .category-display__card-icon {
@@ -171,8 +186,12 @@
   }
   
   .category-display__card {
-    padding: 1.5rem;
-    min-height: 160px;
+    padding: 1rem;
+    min-height: 320px;
+  }
+  
+  .category-display__card-image {
+    height: 180px;
   }
   
   .category-display__card-icon {
